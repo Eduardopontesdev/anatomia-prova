@@ -1,0 +1,2964 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Sistema Muscular Ilustrado – Anatomia e Fisiologia</title>
+<style>
+/* ==================== DESIGN TOKENS & TEMA ==================== */
+:root {
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --brand: #0f766e;
+  --brand2: #14b8a6;
+  --brand-soft: #ccfbf1;
+  --ok: #059669;
+  --ok-soft: #d1fae5;
+  --err: #e11d48;
+  --err-soft: #ffe4e6;
+  --warn: #d97706;
+  --warn-soft: #fef3c7;
+  --accent: #2563eb;
+  --accent-soft: #dbeafe;
+  --violet: #7c3aed;
+  --violet-soft: #ede9fe;
+  --shadow: 0 1px 3px rgba(15, 23, 42, .08), 0 4px 14px rgba(15, 23, 42, .05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1220;
+    --card: #131c2e;
+    --text: #e5edf7;
+    --muted: #94a3b8;
+    --line: #243049;
+    --brand: #14b8a6;
+    --brand2: #2dd4bf;
+    --brand-soft: #0f2f2c;
+    --ok: #34d399;
+    --ok-soft: #08302a;
+    --err: #fb7185;
+    --err-soft: #3a1420;
+    --warn: #fbbf24;
+    --warn-soft: #3a2a0a;
+    --accent: #60a5fa;
+    --accent-soft: #13243f;
+    --violet: #a78bfa;
+    --violet-soft: #251c45;
+    --shadow: none;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+  overscroll-behavior: none;
+}
+
+button, input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  background: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==================== LAYOUT PRINCIPAL ==================== */
+#app {
+  max-width: 720px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.top {
+  padding: calc(env(safe-area-inset-top, 0px) + 14px) 18px 16px;
+  background: linear-gradient(135deg, #0f766e, #115e59 60%, #134e4a);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: 0 0 22px 22px;
+  box-shadow: 0 6px 20px rgba(15, 118, 110, .25);
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-align: left;
+}
+
+.logo .ic {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, .16);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.logo h1 {
+  font-size: 17px;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  line-height: 1.2;
+}
+
+.logo p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  opacity: .88;
+}
+
+.chip {
+  background: rgba(255, 255, 255, .18);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: 700;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 16px 28px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.view {
+  animation: fadeIn .22s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ==================== BARRA INFERIOR ==================== */
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  padding: 6px 8px calc(env(safe-area-inset-bottom, 0px) + 8px);
+  flex-shrink: 0;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 7px 4px;
+  border-radius: 14px;
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.tab .e {
+  font-size: 21px;
+  line-height: 1.1;
+}
+
+.tab.on {
+  color: var(--brand);
+  background: var(--brand-soft);
+}
+
+/* ==================== COMPONENTES & CARTÕES ==================== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+}
+
+.card-title {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+h2.sec {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  margin: 16px 4px 8px;
+  font-weight: 800;
+}
+
+h2.sec:first-child {
+  margin-top: 4px;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 4px 0 10px;
+}
+
+.backbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 99px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  font-weight: 800;
+  font-size: 13.5px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+
+.seg {
+  display: flex;
+  gap: 6px;
+  background: var(--bg);
+  padding: 4px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.seg button {
+  flex: 1;
+  min-width: 90px;
+  padding: 9px 6px;
+  border-radius: 11px;
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--muted);
+  transition: all .15s;
+}
+
+.seg button.on {
+  background: var(--card);
+  color: var(--brand);
+  box-shadow: var(--shadow);
+}
+
+.chips {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 6px;
+  scrollbar-width: none;
+}
+
+.chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chips button {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border-radius: 99px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  transition: all .15s;
+}
+
+.chips button.on {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+/* ==================== HOME TÓPICOS ==================== */
+.topics {
+  display: grid;
+  gap: 11px;
+}
+
+.topic {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 14px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  transition: transform .1s;
+}
+
+.topic:active {
+  transform: scale(.985);
+}
+
+.topic .te {
+  width: 54px;
+  height: 54px;
+  border-radius: 17px;
+  display: grid;
+  place-items: center;
+  font-size: 27px;
+  flex-shrink: 0;
+}
+
+.topic b {
+  display: block;
+  font-size: 15.5px;
+}
+
+.topic small {
+  display: block;
+  color: var(--muted);
+  font-size: 12.5px;
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+.topic .go {
+  margin-left: auto;
+  font-size: 22px;
+  color: var(--muted);
+}
+
+.topic.t-train {
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  border: 0;
+  color: #fff;
+}
+
+.topic.t-train small,
+.topic.t-train .go {
+  color: rgba(255, 255, 255, .9);
+}
+
+.topic.t-train .te {
+  background: rgba(255, 255, 255, .2);
+}
+
+/* ==================== BOTÕES & INPUTS ==================== */
+.btn {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 14.5px;
+  background: var(--brand);
+  color: #fff;
+  margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, .22);
+  transition: transform .1s;
+}
+
+.btn:active {
+  transform: scale(.985);
+}
+
+.btn.dark {
+  background: var(--text);
+  color: var(--bg);
+  box-shadow: none;
+}
+
+.btn.soft {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.btn.vio {
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+}
+
+.btn.mini {
+  padding: 10px;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.two2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+@media (max-width: 460px) {
+  .two2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.search-wrap {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.search-in {
+  width: 100%;
+  padding: 12px 38px 12px 14px;
+  border-radius: 14px;
+  border: 2px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14.5px;
+  outline: none;
+}
+
+.search-in:focus {
+  border-color: var(--brand);
+  background: var(--card);
+}
+
+.search-clr {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--muted);
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+}
+
+/* ==================== CARTÕES VISUAIS ANATÔMICOS (CSS PURO) ==================== */
+.anat-card {
+  background: linear-gradient(145deg, var(--bg), var(--card));
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 14px;
+  margin-top: 8px;
+}
+
+.anat-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.anat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.anat-sub {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* Medidor visual de tensão / comprimento / posição */
+.meter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 10px 0;
+}
+
+@media (max-width: 460px) {
+  .meter-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.meter-box {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 9px 10px;
+}
+
+.meter-box small {
+  display: block;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.meter-box b {
+  display: block;
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.mbar {
+  height: 7px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.mbar i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  transition: width .35s ease;
+}
+
+/* Mapa interativo de regiões em blocos HTML/CSS */
+.region-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.rmap-btn {
+  text-align: left;
+  padding: 10px 11px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  transition: all .15s;
+}
+
+.rmap-btn b {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.rmap-btn span {
+  display: block;
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.rmap-btn.on {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+
+.rmap-btn.on b {
+  color: var(--brand);
+}
+
+/* Esquema estrutural de fibra / contração em CSS puro */
+.fiber-track {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.fiber-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.fiber-rail {
+  height: 22px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  overflow: hidden;
+}
+
+.fiber-core {
+  height: 100%;
+  border-radius: 999px;
+  background: repeating-linear-gradient(
+    90deg,
+    #e11d48 0px,
+    #e11d48 8px,
+    #fb7185 8px,
+    #fb7185 14px
+  );
+  transition: width .35s ease;
+}
+
+/* ==================== MOLDURAS DE IMAGEM REAL (DATA URI) ==================== */
+.atlas-frame {
+  position: relative;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.atlas-frame img.atlas-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 290px;
+  object-fit: contain;
+  background: #f8fafc;
+}
+
+@media (prefers-color-scheme: dark) {
+  .atlas-frame img.atlas-img {
+    background: #0f172a;
+  }
+}
+
+.atlas-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 11px;
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.atlas-up {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 99px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-weight: 800;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.atlas-rst {
+  padding: 5px 9px;
+  border-radius: 99px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 11px;
+}
+
+/* ==================== CAIXAS, LISTAS E TABELAS ==================== */
+.sbox {
+  background: var(--brand-soft);
+  border-radius: 14px;
+  padding: 11px 13px;
+  font-size: 13.5px;
+  margin-top: 10px;
+  line-height: 1.45;
+}
+
+.sbox b {
+  color: var(--brand);
+}
+
+.mini2 {
+  border-radius: 14px;
+  padding: 11px 12px;
+  font-size: 13px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.mini2 b {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.tscroll {
+  overflow-x: auto;
+  margin-top: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+
+table.tb {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+table.tb th,
+table.tb td {
+  text-align: left;
+  padding: 8px 7px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  line-height: 1.35;
+}
+
+table.tb th {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  background: var(--bg);
+}
+
+table.tb tr.hl-row {
+  background: var(--brand-soft);
+}
+
+table.tb td:first-child {
+  font-weight: 800;
+  color: var(--text);
+  min-width: 120px;
+}
+
+.mgrid {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.mitem {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 11px 12px;
+}
+
+.mitem-h {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.mitem-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--card);
+  color: var(--brand);
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.mitem-b {
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.mitem-meta {
+  display: grid;
+  gap: 3px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--line);
+  font-size: 12.5px;
+}
+
+.mitem-meta span b {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.mnem {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 10px 0 4px;
+}
+
+.mnem span {
+  background: var(--bg);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.mnem span b {
+  color: var(--brand);
+  font-size: 17px;
+}
+
+/* ==================== PLAYER PASSO A PASSO ==================== */
+.player {
+  margin-top: 10px;
+}
+
+.stitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.stitle span:last-child {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.screen {
+  background: linear-gradient(180deg, var(--brand-soft), var(--card));
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 14px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.scene {
+  animation: fadeIn .35s ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cap {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px;
+  line-height: 1.45;
+}
+
+.segs {
+  display: flex;
+  gap: 4px;
+  margin: 12px 0 8px;
+}
+
+.segs button {
+  flex: 1;
+  height: 8px;
+  border-radius: 9px;
+  background: var(--line);
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+
+.segs button i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: var(--brand2);
+}
+
+.segs button.done i {
+  width: 100%;
+}
+
+.segs button.cur i {
+  animation: fillseg var(--d, 6s) linear forwards;
+}
+
+@keyframes fillseg {
+  to { width: 100%; }
+}
+
+.paused .segs button.cur i,
+.paused .screen * {
+  animation-play-state: paused !important;
+}
+
+.ctrl {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.cb {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--line);
+  font-size: 17px;
+  box-shadow: var(--shadow);
+}
+
+.cb.big {
+  width: 54px;
+  height: 54px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 20px;
+  border: 0;
+}
+
+.cb.sp {
+  font-size: 12.5px;
+  font-weight: 800;
+  width: 52px;
+  border-radius: 22px;
+}
+
+/* ==================== QUIZ & FLASH-QUIZ ==================== */
+.qhead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.x {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.prog {
+  flex: 1;
+}
+
+.prog .bar {
+  height: 10px;
+  border-radius: 99px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.prog .bar i {
+  display: block;
+  height: 100%;
+  background: var(--brand2);
+  border-radius: 99px;
+  transition: width .3s;
+}
+
+.qmeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.pill {
+  display: inline-block;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-weight: 800;
+  font-size: 12px;
+  padding: 4px 11px;
+  border-radius: 99px;
+  margin-bottom: 10px;
+}
+
+.qtext {
+  font-size: 16.5px;
+  font-weight: 800;
+  margin: 4px 0 14px;
+  line-height: 1.4;
+}
+
+.opts {
+  display: grid;
+  gap: 9px;
+}
+
+.opt {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  text-align: left;
+  padding: 12px 13px;
+  border-radius: 14px;
+  border: 2px solid var(--line);
+  background: var(--card);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.opt .lt {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.opt:active {
+  transform: scale(.99);
+}
+
+.opt.ok {
+  border-color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.opt.ok .lt {
+  background: var(--ok);
+  color: #fff;
+}
+
+.opt.bad {
+  border-color: var(--err);
+  background: var(--err-soft);
+}
+
+.opt.bad .lt {
+  background: var(--err);
+  color: #fff;
+}
+
+.in {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--line);
+  background: var(--bg);
+  font-size: 15.5px;
+  font-weight: 700;
+  outline: none;
+  margin-top: 10px;
+}
+
+.in:focus {
+  border-color: var(--brand);
+}
+
+.in.okin {
+  border-color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.in.badin {
+  border-color: var(--err);
+  background: var(--err-soft);
+}
+
+.link {
+  display: block;
+  margin: 8px auto 0;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: underline;
+  padding: 6px;
+}
+
+.warnmsg {
+  color: var(--warn);
+  font-size: 13px;
+  font-weight: 700;
+  margin: 8px 2px 0;
+}
+
+.fb {
+  margin-top: 14px;
+  border-radius: 18px;
+  padding: 15px;
+  border: 2px solid;
+  animation: fadeIn .22s;
+}
+
+.fb.ok {
+  background: var(--ok-soft);
+  border-color: var(--ok);
+}
+
+.fb.bad {
+  background: var(--err-soft);
+  border-color: var(--err);
+}
+
+.fbh {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.fbi {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.ok .fbi {
+  background: var(--ok);
+}
+
+.bad .fbi {
+  background: var(--err);
+}
+
+.fbh small {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.ok .fbh small {
+  color: var(--ok);
+}
+
+.bad .fbh small {
+  color: var(--err);
+}
+
+.fbh b {
+  font-size: 15.5px;
+  line-height: 1.3;
+}
+
+.tip {
+  margin-top: 8px;
+  font-size: 13.5px;
+  background: var(--card);
+  border-radius: 12px;
+  padding: 10px 12px;
+  line-height: 1.45;
+}
+
+.tip small {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+/* ==================== MOTOR DE IMAGENS REAIS (CANVAS -> DATA URI) ==================== */
+const ATLAS_CACHE = {};
+const USER_PHOTOS = {};
+
+function getAtlasDataURI(sceneKey) {
+  if (USER_PHOTOS[sceneKey]) return USER_PHOTOS[sceneKey];
+  if (ATLAS_CACHE[sceneKey]) return ATLAS_CACHE[sceneKey];
+
+  const W = 840, H = 440;
+  const c = document.createElement("canvas");
+  c.width = W;
+  c.height = H;
+  const ctx = c.getContext("2d");
+
+  // Fundo estilo prancha de atlas médico
+  const bg = ctx.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, "#f8fafc");
+  bg.addColorStop(1, "#e2e8f0");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Grade milimetrada sutil de atlas anatômico
+  ctx.strokeStyle = "rgba(15, 118, 110, 0.07)";
+  ctx.lineWidth = 1;
+  for (let x = 20; x < W; x += 28) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = 20; y < H; y += 28) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // Moldura interna
+  ctx.strokeStyle = "#cbd5e1";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(10, 10, W - 20, H - 20);
+
+  // Utilitários de desenho anatômico
+  const pill = (x, y, txt, color = "#0f766e", bgCol = "#ccfbf1") => {
+    ctx.font = "bold 15px system-ui, sans-serif";
+    const tw = ctx.measureText(txt).width;
+    ctx.fillStyle = bgCol;
+    ctx.beginPath();
+    ctx.roundRect(x, y, tw + 24, 30, 15);
+    ctx.fill();
+    ctx.fillStyle = color;
+    ctx.fillText(txt, x + 12, y + 20);
+  };
+
+  const labelLine = (x1, y1, x2, y2, title, sub = "", align = "left") => {
+    ctx.strokeStyle = "#0f172a";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    ctx.fillStyle = "#e11d48";
+    ctx.beginPath();
+    ctx.arc(x1, y1, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.font = "bold 15px system-ui, sans-serif";
+    ctx.fillStyle = "#0f172a";
+    ctx.textAlign = align;
+    const tx = align === "left" ? x2 + 8 : x2 - 8;
+    ctx.fillText(title, tx, y2 + 4);
+    if (sub) {
+      ctx.font = "13px system-ui, sans-serif";
+      ctx.fillStyle = "#475569";
+      ctx.fillText(sub, tx, y2 + 21);
+    }
+    ctx.textAlign = "left";
+  };
+
+  const drawMuscleBelly = (cx, cy, rx, ry, rot = 0, c1 = "#e11d48", c2 = "#9f1239") => {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rot);
+    // Tendões nas extremidades
+    ctx.fillStyle = "#f1f5f9";
+    ctx.strokeStyle = "#94a3b8";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(-rx - 36, -12, rx * 2 + 72, 24, 10);
+    ctx.fill();
+    ctx.stroke();
+
+    // Ventre muscular estriado
+    const g = ctx.createLinearGradient(0, -ry, 0, ry);
+    g.addColorStop(0, c1);
+    g.addColorStop(0.5, "#fb7185");
+    g.addColorStop(1, c2);
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#881337";
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // Estrias longitudinais das miofibrilas
+    ctx.strokeStyle = "rgba(255,255,255,0.34)";
+    ctx.lineWidth = 1.6;
+    for (let i = -ry + 10; i <= ry - 10; i += 8) {
+      ctx.beginPath();
+      ctx.moveTo(-rx * 0.78, i * 0.55);
+      ctx.quadraticCurveTo(0, i, rx * 0.78, i * 0.55);
+      ctx.stroke();
+    }
+    ctx.restore();
+  };
+
+  const drawBone = (x1, y1, x2, y2, w = 22) => {
+    ctx.save();
+    ctx.strokeStyle = "#cbd5e1";
+    ctx.lineWidth = w + 4;
+    ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+    ctx.strokeStyle = "#fffbeb";
+    ctx.lineWidth = w;
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+    ctx.restore();
+  };
+
+  // Cabeçalho padrão da prancha
+  ctx.fillStyle = "#0f172a";
+  ctx.font = "bold 20px system-ui, sans-serif";
+
+  if (sceneKey === "contr_iso" || sceneKey === "contr_conc" || sceneKey === "contr_exc") {
+    const mode = sceneKey.split("_")[1];
+    const titles = {
+      iso: ["CONTRAÇÃO ISOMÉTRICA", "Comprimento muscular constante • Postura e sustentação fixa", 145, 42, 0.25],
+      conc: ["CONTRAÇÃO ISOTÔNICA CONCÊNTRICA", "Músculo encurta • Tensão vence a resistência e reduz ângulo articular", 108, 54, -0.45],
+      exc: ["CONTRAÇÃO ISOTÔNICA EXCÊNTRICA", "Comprimento aumenta durante a contração • Controle sob carga", 180, 34, 0.65]
+    }[mode];
+
+    ctx.fillText(titles[0], 28, 44);
+    pill(28, 56, titles[1], "#0f766e", "#ccfbf1");
+
+    // Articulação do cotovelo ilustrada (Úmero + Rádio/Ulna + Bíceps)
+    drawBone(230, 120, 230, 290, 26); // Úmero
+    const ang = titles[4];
+    const fx = 230 + Math.cos(ang) * 165;
+    const fy = 290 + Math.sin(ang) * 165;
+    drawBone(230, 290, fx, fy, 20); // Antebraço
+
+    // Articulação
+    ctx.fillStyle = "#94a3b8";
+    ctx.beginPath(); ctx.arc(230, 290, 16, 0, Math.PI * 2); ctx.fill();
+
+    // Ventre do bíceps variando comprimento e espessura
+    const mx = (230 + (230 + Math.cos(ang) * 75)) / 2 + 28;
+    const my = (145 + (290 + Math.sin(ang) * 75)) / 2;
+    drawMuscleBelly(mx, my, titles[2] * 0.55, titles[3] * 0.65, Math.PI / 2 - 0.22);
+
+    // Carga / Resistência na mão
+    ctx.fillStyle = mode === "conc" ? "#059669" : mode === "exc" ? "#d97706" : "#2563eb";
+    ctx.beginPath(); ctx.arc(fx, fy, 22, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 12px system-ui, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("CARGA", fx, fy + 4);
+    ctx.textAlign = "left";
+
+    // Quadro comparativo à direita
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath(); ctx.roundRect(470, 105, 335, 295, 16); ctx.fill();
+    ctx.strokeStyle = "#cbd5e1"; ctx.stroke();
+
+    const rows = [
+      ["Comprimento:", mode === "iso" ? "Inalterado (constante)" : mode === "conc" ? "Encurta (diminui)" : "Aumenta sob tensão"],
+      ["Ângulo articular:", mode === "iso" ? "Permanece fixo" : mode === "conc" ? "Reduz na articulação" : "Aumenta controladamente"],
+      ["Tensão vs Carga:", mode === "iso" ? "Não transpõe resistência" : mode === "conc" ? "Transpõe a resistência" : "Freia a resistência"],
+      ["Gasto energético:", "Sim (consumo de ATP)"]
+    ];
+    rows.forEach((r, idx) => {
+      const yy = 145 + idx * 64;
+      ctx.font = "bold 14px system-ui, sans-serif";
+      ctx.fillStyle = "#64748b";
+      ctx.fillText(r[0], 492, yy);
+      ctx.font = "bold 16px system-ui, sans-serif";
+      ctx.fillStyle = "#0f172a";
+      ctx.fillText(r[1], 492, yy + 22);
+    });
+
+  } else if (sceneKey.startsWith("prop_")) {
+    const p = sceneKey.split("_")[1];
+    const info = {
+      exc: ["1. EXCITABILIDADE ELÉTRICA", "Resposta a estímulos gerando potenciais de ação musculares", "#2563eb"],
+      con: ["2. CONTRATILIDADE", "Contração vigorosa ao potencial de ação, tracionando inserções", "#e11d48"],
+      ext: ["3. EXTENSIBILIDADE", "Alongamento com limites sem lesão (limitado pelo tecido conjuntivo)", "#d97706"],
+      ela: ["4. ELASTICIDADE", "Retorno ao comprimento e forma originais após contração/alongamento", "#059669"]
+    }[p];
+
+    ctx.fillText(info[0], 28, 44);
+    pill(28, 56, info[1], info[2], "#ffffff");
+
+    const rx = p === "con" ? 130 : p === "ext" ? 235 : 180;
+    const ry = p === "con" ? 64 : p === "ext" ? 36 : 48;
+    drawMuscleBelly(420, 235, rx, ry, 0);
+
+    if (p === "exc") {
+      // Impulso elétrico / raio
+      ctx.strokeStyle = "#eab308";
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(210, 120); ctx.lineTo(255, 165); ctx.lineTo(235, 175); ctx.lineTo(285, 220);
+      ctx.stroke();
+      labelLine(285, 220, 150, 330, "Potencial de ação muscular", "Sinal elétrico propagado no sarcolema", "left");
+    } else if (p === "con") {
+      labelLine(275, 235, 130, 335, "Tração na origem", "Encurtamento ativo e geração de tensão", "left");
+      labelLine(565, 235, 700, 335, "Tração na inserção", "Movimenta a alavanca óssea", "right");
+    } else if (p === "ext") {
+      labelLine(200, 235, 110, 335, "Tecido conjuntivo interno", "Limita o grau de extensibilidade sem lesão", "left");
+      labelLine(640, 235, 720, 335, "Alongamento controlado", "Fibra estendida dentro do limite fisiológico", "right");
+    } else {
+      labelLine(420, 187, 540, 130, "Retorno elástico", "Recupera comprimento e forma originais", "left");
+    }
+
+  } else if (sceneKey.startsWith("face_")) {
+    ctx.fillText("ATLAS ANATÔMICO – MÚSCULOS DA FACE E CABEÇA", 28, 44);
+    pill(28, 56, "17 Músculos da Expressão Facial + 4 Músculos da Mastigação", "#be185d", "#fce7f3");
+
+    // Silhueta craniofacial anatômica
+    ctx.fillStyle = "#fde68a";
+    ctx.strokeStyle = "#b45309";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.ellipse(390, 235, 115, 145, 0, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+
+    // Frontal & Occipital
+    drawMuscleBelly(390, 125, 75, 18, 0, "#e11d48", "#9f1239");
+    // Orbicular dos olhos
+    ctx.strokeStyle = "#e11d48"; ctx.lineWidth = 10;
+    ctx.beginPath(); ctx.ellipse(345, 195, 26, 15, 0, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(435, 195, 26, 15, 0, 0, Math.PI * 2); ctx.stroke();
+    // Temporal & Masseter (mastigação)
+    drawMuscleBelly(285, 185, 22, 36, -0.2, "#7c3aed", "#5b21b6");
+    drawMuscleBelly(305, 275, 20, 34, 0.15, "#7c3aed", "#5b21b6");
+    // Zigomático maior & Orbicular da boca
+    drawMuscleBelly(450, 245, 34, 10, -0.55);
+    ctx.strokeStyle = "#e11d48"; ctx.lineWidth = 11;
+    ctx.beginPath(); ctx.ellipse(390, 295, 36, 16, 0, 0, Math.PI * 2); ctx.stroke();
+    // Platisma
+    drawMuscleBelly(390, 385, 68, 22, 0, "#fb7185", "#be123c");
+
+    labelLine(350, 122, 220, 118, "Frontal & Corrugador", "Eleva e aproxima sobrancelhas", "right");
+    labelLine(320, 195, 220, 195, "Orbicular dos olhos", "Fecha as pálpebras", "right");
+    labelLine(295, 275, 220, 278, "Masseter & Temporal", "Mastigação: elevam a mandíbula", "right");
+    labelLine(460, 242, 560, 185, "Zigomáticos & Risório", "Sorriso e tração do ângulo da boca", "left");
+    labelLine(426, 295, 560, 275, "Orbicular da boca & Bucinador", "Fecha lábios / comprime bochechas", "left");
+    labelLine(450, 385, 560, 365, "Platisma", "Traciona pele inferior da face/pescoço", "left");
+
+  } else if (sceneKey.startsWith("sup_")) {
+    ctx.fillText("ATLAS ANATÔMICO – MEMBROS SUPERIORES", 28, 44);
+    pill(28, 56, "Escápula • Manguito Rotador (SIRS) • Braço • Antebraço", "#1d4ed8", "#dbeafe");
+
+    // Clavícula, Escápula, Úmero, Rádio e Ulna
+    drawBone(250, 130, 360, 145, 16); // Clavícula
+    drawBone(365, 155, 365, 260, 22); // Úmero
+    drawBone(365, 260, 345, 385, 14); // Rádio
+    drawBone(365, 260, 382, 385, 14); // Ulna
+
+    // Manguito SIRS + Bíceps/Tríceps + Antebraço
+    drawMuscleBelly(320, 148, 38, 16, -0.2, "#7c3aed", "#5b21b6"); // Supraespinal
+    drawMuscleBelly(348, 208, 18, 42, 0.05); // Bíceps/Braquial
+    drawMuscleBelly(386, 210, 16, 40, -0.05, "#be123c", "#881337"); // Tríceps
+    drawMuscleBelly(352, 315, 15, 44, 0.1); // Flexores antebraço
+    drawMuscleBelly(382, 315, 14, 44, -0.1, "#2563eb", "#1e40af"); // Extensores antebraço
+
+    labelLine(295, 145, 215, 128, "Manguito Rotador (SIRS)", "Supraespinal, Infraespinal, Redondo menor, Subescapular", "right");
+    labelLine(332, 208, 215, 215, "Braço Anterior", "Bíceps braquial, Braquial (principal flexor) e Coracobraquial", "right");
+    labelLine(340, 315, 215, 315, "Antebraço Anterior (8)", "Pronadores e flexores do punho, dedos e polegar", "right");
+    labelLine(402, 208, 495, 185, "Braço Posterior", "Tríceps braquial e Ancôneo (extensão do cotovelo)", "left");
+    labelLine(396, 315, 495, 295, "Antebraço Posterior (11)", "Braquiorradial, Supinador e extensores do punho/dedos", "left");
+
+  } else if (sceneKey.startsWith("tor_")) {
+    ctx.fillText("ATLAS ANATÔMICO – MÚSCULOS DO TÓRAX", 28, 44);
+    pill(28, 56, "Parede Torácica • Superficiais do Tórax • Diafragma", "#0f766e", "#ccfbf1");
+
+    // Gradil costal estilizado
+    ctx.strokeStyle = "#cbd5e1"; ctx.lineWidth = 8;
+    for (let r = 0; r < 5; r++) {
+      ctx.beginPath();
+      ctx.ellipse(410, 165 + r * 32, 115 + r * 6, 18, 0, Math.PI, Math.PI * 2);
+      ctx.stroke();
+    }
+    // Peitoral maior e serrátil
+    drawMuscleBelly(350, 175, 58, 28, -0.2);
+    drawMuscleBelly(470, 175, 58, 28, 0.2);
+    // Cúpula diafragmática
+    ctx.strokeStyle = "#e11d48"; ctx.lineWidth = 14;
+    ctx.beginPath();
+    ctx.arc(410, 355, 130, Math.PI * 1.12, Math.PI * 1.88);
+    ctx.stroke();
+
+    labelLine(315, 172, 215, 145, "Superficiais do Tórax (4)", "Peitoral maior, Peitoral menor, Serrátil anterior, Subclávio", "right");
+    labelLine(300, 240, 215, 245, "Parede Torácica (6)", "Intercostais (ext/int/íntimos), Subcostais, Transverso, Levantadores", "right");
+    labelLine(475, 245, 575, 235, "Diafragma", "Principal músculo da inspiração; separa tórax e abdome", "left");
+
+  } else if (sceneKey.startsWith("abd_")) {
+    ctx.fillText("ATLAS ANATÔMICO – MÚSCULOS DO ABDOME", 28, 44);
+    pill(28, 56, "Anteriores (2) • Laterais em 3 Camadas (3) • Posteriores (3)", "#b45309", "#fef3c7");
+
+    // Reto do abdome (gominhos)
+    for (let row = 0; row < 3; row++) {
+      drawMuscleBelly(382, 165 + row * 62, 24, 24, 0);
+      drawMuscleBelly(438, 165 + row * 62, 24, 24, 0);
+    }
+    // Oblíquos e transverso laterais
+    drawMuscleBelly(315, 230, 24, 78, -0.15, "#2563eb", "#1e40af");
+    drawMuscleBelly(505, 230, 24, 78, 0.15, "#2563eb", "#1e40af");
+
+    labelLine(360, 185, 225, 145, "Anteriores (2)", "Reto do abdome e Piramidal (flexão do tronco e linha alba)", "right");
+    labelLine(295, 245, 225, 255, "Laterais (3)", "Oblíquo externo (contralateral), Oblíquo interno (ipsilateral), Transverso", "right");
+    labelLine(525, 245, 590, 230, "Posteriores (3)", "Quadrado lombar, Psoas maior e Ilíaco (trocânter menor)", "left");
+
+  } else if (sceneKey.startsWith("pel_")) {
+    ctx.fillText("ATLAS ANATÔMICO – ASSOALHO PÉLVICO", 28, 44);
+    pill(28, 56, "Diafragma Pélvico • Períneo Superficial/Profundo • Continência Anal", "#6d28d9", "#ede9fe");
+
+    // Anel pélvico
+    ctx.strokeStyle = "#cbd5e1"; ctx.lineWidth = 16;
+    ctx.beginPath(); ctx.ellipse(410, 245, 145, 105, 0, 0, Math.PI * 2); ctx.stroke();
+
+    // Levantador do ânus e esfíncteres
+    drawMuscleBelly(410, 235, 95, 48, 0, "#7c3aed", "#5b21b6");
+    ctx.fillStyle = "#e11d48";
+    ctx.beginPath(); ctx.arc(410, 210, 16, 0, Math.PI * 2); ctx.fill(); // Uretra
+    ctx.beginPath(); ctx.arc(410, 275, 22, 0, Math.PI * 2); ctx.fill(); // Ânus
+
+    labelLine(325, 235, 215, 165, "Diafragma Pélvico", "Levantador do ânus (Puborretal, Pubococcígeo, Iliococcígeo) + Coccígeo", "right");
+    labelLine(394, 210, 215, 275, "Períneo (Superficial e Profundo)", "Isquiocavernoso, Bulboesponjoso, Transversos e Esfíncter da uretra", "right");
+    labelLine(432, 275, 575, 265, "Continência Anal", "Esfíncter externo (voluntário) e Esfíncter interno (involuntário)", "left");
+
+  } else {
+    // Membros inferiores
+    ctx.fillText("ATLAS ANATÔMICO – MEMBROS INFERIORES", 28, 44);
+    pill(28, 56, "Quadril e Glútea (10) • Coxa (Quadríceps + Posteriores) • Perna (4)", "#047857", "#d1fae5");
+
+    // Fêmur, Tíbia, Fíbula
+    drawBone(385, 145, 385, 270, 22);
+    drawBone(385, 275, 385, 395, 16);
+
+    // Glúteo + Quadríceps + Posteriores + Perna
+    drawMuscleBelly(348, 148, 36, 26, -0.3, "#7c3aed", "#5b21b6"); // Glúteos
+    drawMuscleBelly(368, 212, 22, 48, 0); // Quadríceps
+    drawMuscleBelly(404, 212, 18, 46, 0, "#be123c", "#881337"); // Posteriores
+    drawMuscleBelly(398, 332, 16, 44, 0, "#2563eb", "#1e40af"); // Perna posterior
+
+    labelLine(315, 145, 215, 130, "Quadril e Glútea (10)", "Glúteos (máx/méd/mín), Piriforme, Gêmeos, Obturadores, Quadrado fem., TFL", "right");
+    labelLine(348, 212, 215, 225, "Coxa Anterior (5)", "Reto femoral (biarticular), Vastos (lateral, medial, intermédio) e Sartório", "right");
+    labelLine(422, 212, 515, 195, "Coxa Posterior (4)", "Bíceps femoral (cabeças longa e curta), Semitendíneo e Semimembranáceo", "left");
+    labelLine(414, 332, 515, 315, "Perna (4)", "Poplíteo, Tibial posterior, Flexor longo dos dedos e Flexor longo do hálux", "left");
+  }
+
+  const uri = c.toDataURL("image/png");
+  ATLAS_CACHE[sceneKey] = uri;
+  return uri;
+}
+
+function renderAtlasImage(sceneKey, altText) {
+  const src = getAtlasDataURI(sceneKey);
+  const hasCustom = Boolean(USER_PHOTOS[sceneKey]);
+  return `<div class="atlas-frame">
+    <img class="atlas-img" src="${src}" alt="${esc(altText)}">
+    <div class="atlas-bar">
+      <span>${hasCustom ? "📷 Foto do slide carregada" : "🖼️ Ilustração anatômica (Data URI HD)"}</span>
+      <div style="display:flex;gap:6px;align-items:center">
+        ${hasCustom ? `<button type="button" class="atlas-rst" data-rst-img="${esc(sceneKey)}">Restaurar atlas</button>` : ""}
+        <label class="atlas-up">📷 Trocar foto<input type="file" accept="image/*" data-up-img="${esc(sceneKey)}" class="hidden"></label>
+      </div>
+    </div>
+  </div>`;
+}
+
+document.addEventListener("change", e => {
+  const inp = e.target.closest("input[data-up-img]");
+  if (!inp || !inp.files || !inp.files[0]) return;
+  const key = inp.dataset.upImg;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    USER_PHOTOS[key] = ev.target.result;
+    const frame = inp.closest(".atlas-frame");
+    if (frame) {
+      const img = frame.querySelector("img.atlas-img");
+      if (img) img.src = ev.target.result;
+    }
+  };
+  reader.readAsDataURL(inp.files[0]);
+});
+
+document.addEventListener("click", e => {
+  const rst = e.target.closest("[data-rst-img]");
+  if (!rst) return;
+  const key = rst.dataset.rstImg;
+  delete USER_PHOTOS[key];
+  const frame = rst.closest(".atlas-frame");
+  if (frame) {
+    const img = frame.querySelector("img.atlas-img");
+    if (img) img.src = getAtlasDataURI(key);
+    rst.remove();
+  }
+});
+
+/* ==================== CARTÕES VISUAIS COM IMAGEM REAL ==================== */
+function cardContraction(mode) {
+  const cfg = {
+    iso: {
+      key: "contr_iso",
+      badge: "Contração Isométrica",
+      sub: "Comprimento constante • Postura e carga fixa",
+      tensao: 82,
+      compPct: 72,
+      compTxt: "Sem mudança (0%)",
+      movTxt: "Sem movimento articular",
+      note: "A tensão gerada não é suficiente para transpor a resistência de um objeto e o músculo não muda seu comprimento. Essencial para postura e suportar objetos em posição fixa, com gasto energético."
+    },
+    conc: {
+      key: "contr_conc",
+      badge: "Isotônica Concêntrica",
+      sub: "Músculo encurta • Vence a resistência",
+      tensao: 90,
+      compPct: 42,
+      compTxt: "Encurta (reduz ângulo)",
+      movTxt: "Produz movimento / reduz ângulo",
+      note: "A tensão é grande o suficiente para transpor a resistência: o músculo encurta, traciona a estrutura inserida (como um tendão) e reduz o ângulo na articulação."
+    },
+    exc: {
+      key: "contr_exc",
+      badge: "Isotônica Excêntrica",
+      sub: "Comprimento aumenta • Frenagem controlada",
+      tensao: 75,
+      compPct: 92,
+      compTxt: "Aumenta durante a contração",
+      movTxt: "Controle de alongamento sob carga",
+      note: "Tipo de contração isotônica em que o comprimento do músculo aumenta durante a contração, controlando a resistência (ex.: descer uma carga)."
+    }
+  }[mode] || {
+    key: "contr_iso",
+    badge: "Contração Isométrica",
+    sub: "Comprimento constante",
+    tensao: 82,
+    compPct: 72,
+    compTxt: "Sem mudança",
+    movTxt: "Sem movimento",
+    note: ""
+  };
+
+  return `<div class="anat-card">
+    <div class="anat-head">
+      <span class="anat-badge">⚡ ${esc(cfg.badge)}</span>
+      <span class="anat-sub">${esc(cfg.sub)}</span>
+    </div>
+    ${renderAtlasImage(cfg.key, cfg.badge)}
+    <div class="meter-grid">
+      <div class="meter-box"><small>Tensão muscular</small><b>${cfg.tensao}%</b><div class="mbar"><i style="width:${cfg.tensao}%"></i></div></div>
+      <div class="meter-box"><small>Comprimento</small><b>${esc(cfg.compTxt)}</b><div class="mbar"><i style="width:${cfg.compPct}%"></i></div></div>
+      <div class="meter-box"><small>Efeito mecânico</small><b>${esc(cfg.movTxt)}</b><div class="mbar"><i style="width:76%"></i></div></div>
+    </div>
+    <div class="sbox" style="margin-top:8px"><b>Resumo:</b> ${esc(cfg.note)}</div>
+  </div>`;
+}
+
+function cardProperty(propKey) {
+  const map = {
+    exc: {
+      key: "prop_exc",
+      b: "1. Excitabilidade Elétrica",
+      s: "Potenciais de ação musculares",
+      v1: 95, l1: "Resposta a estímulos",
+      v2: 90, l2: "Sinais elétricos",
+      v3: 85, l3: "Disparo da contração",
+      d: "Capacidade de responder a determinados estímulos produzindo sinais elétricos chamados potenciais de ação musculares."
+    },
+    con: {
+      key: "prop_con",
+      b: "2. Contratilidade",
+      s: "Geração de tensão e tração",
+      v1: 92, l1: "Contração vigorosa",
+      v2: 88, l2: "Tensão interna",
+      v3: 86, l3: "Puxa inserções",
+      d: "Capacidade de se contrair vigorosamente quando estimulado por um potencial de ação, gerando tensão e puxando seus pontos de inserção."
+    },
+    ext: {
+      key: "prop_ext",
+      b: "3. Extensibilidade",
+      s: "Alongamento com limite conjuntivo",
+      v1: 78, l1: "Estender com limites",
+      v2: 100, l2: "Sem sofrer lesão",
+      v3: 70, l3: "Tecido conjuntivo limita",
+      d: "Capacidade de se estender com limites sem sofrer lesão; o tecido conjuntivo interno limita o grau de extensibilidade."
+    },
+    ela: {
+      key: "prop_ela",
+      b: "4. Elasticidade",
+      s: "Retorno à forma original",
+      v1: 94, l1: "Retorno ao comprimento",
+      v2: 90, l2: "Forma original",
+      v3: 85, l3: "Após contração/alongamento",
+      d: "Capacidade do tecido muscular de retornar ao comprimento e forma originais depois de uma contração ou alongamento."
+    }
+  };
+  const k = map[propKey] || map.exc;
+  return `<div class="anat-card">
+    <div class="anat-head"><span class="anat-badge">${esc(k.b)}</span><span class="anat-sub">${esc(k.s)}</span></div>
+    ${renderAtlasImage(k.key, k.b)}
+    <div class="meter-grid">
+      <div class="meter-box"><small>Indicador A</small><b>${esc(k.l1)}</b><div class="mbar"><i style="width:${k.v1}%"></i></div></div>
+      <div class="meter-box"><small>Indicador B</small><b>${esc(k.l2)}</b><div class="mbar"><i style="width:${k.v2}%"></i></div></div>
+      <div class="meter-box"><small>Indicador C</small><b>${esc(k.l3)}</b><div class="mbar"><i style="width:${k.v3}%"></i></div></div>
+    </div>
+    <div class="sbox">${esc(k.d)}</div>
+  </div>`;
+}
+
+function renderRegionCard({ title, subtitle, zones, activeKey, attrName, summary, imgKey }) {
+  return `<div class="anat-card">
+    <div class="anat-head">
+      <span class="anat-badge">🗺️ ${esc(title)}</span>
+      <span class="anat-sub">${esc(subtitle)}</span>
+    </div>
+    ${imgKey ? renderAtlasImage(imgKey, title) : ""}
+    <div class="region-map">
+      ${zones.map(z => `<button type="button" class="rmap-btn ${activeKey === z.key ? "on" : ""}" data-${attrName}="${esc(z.key)}">
+        <b>${esc(z.label)}</b>
+        <span>${esc(z.info)}</span>
+      </button>`).join("")}
+    </div>
+    ${summary ? `<div class="sbox" style="margin-top:10px">${summary}</div>` : ""}
+  </div>`;
+}
+
+/* ==================== PLAYER PASSO A PASSO ==================== */
+const P = { scenes: [], i: 0, playing: false, timer: null, speed: 1, rem: 0, t0: 0 };
+
+function stopPlayer() {
+  clearTimeout(P.timer);
+  P.timer = null;
+  P.playing = false;
+  const pl = $("player");
+  if (pl) pl.classList.add("paused");
+  const b = $("pplay");
+  if (b) b.textContent = "▶";
+}
+
+function mountPlayer(box, scenes) {
+  clearTimeout(P.timer);
+  P.scenes = scenes;
+  P.i = 0;
+  P.playing = true;
+  box.innerHTML = `<div class="player" id="player">
+    <div class="stitle"><span id="ptitle"></span><span id="pcount"></span></div>
+    <div class="screen" id="pscreen"></div>
+    <div class="segs" id="psegs"></div>
+    <div class="ctrl">
+      <button class="cb" id="pprev" aria-label="Cena anterior">⏮</button>
+      <button class="cb big" id="pplay" aria-label="Pausar ou reproduzir">⏸</button>
+      <button class="cb" id="pnext" aria-label="Próxima cena">⏭</button>
+      <button class="cb sp" id="pspeed" aria-label="Velocidade">${P.speed === 1 ? "1×" : "0,5×"}</button>
+    </div>
+  </div>`;
+
+  $("pprev").onclick = () => {
+    P.playing = true;
+    goScene(Math.max(0, P.i - 1));
+  };
+  $("pnext").onclick = () => {
+    P.playing = true;
+    goScene(Math.min(P.scenes.length - 1, P.i + 1));
+  };
+  $("pspeed").onclick = () => {
+    P.speed = P.speed === 1 ? 0.5 : 1;
+    $("pspeed").textContent = P.speed === 1 ? "1×" : "0,5×";
+    P.playing = true;
+    goScene(P.i);
+  };
+  $("pplay").onclick = togglePlay;
+  goScene(0);
+}
+
+function scheduleScene(ms) {
+  clearTimeout(P.timer);
+  P.rem = ms;
+  P.t0 = performance.now();
+  P.timer = setTimeout(() => {
+    if (P.i < P.scenes.length - 1) {
+      goScene(P.i + 1);
+    } else {
+      P.playing = false;
+      $("pplay").textContent = "🔁";
+      $("player").classList.add("paused");
+    }
+  }, ms);
+}
+
+function goScene(idx) {
+  const sc = P.scenes[idx];
+  P.i = idx;
+  const dur = (sc.d || 6) / P.speed;
+  $("pscreen").innerHTML = `<div class="scene">${sc.vis}<div class="cap">${sc.say}</div></div>`;
+  $("ptitle").textContent = `${idx + 1}. ${sc.t}`;
+  $("pcount").textContent = `Passo ${idx + 1} de ${P.scenes.length}`;
+  $("psegs").innerHTML = P.scenes.map((_, k) => `<button data-i="${k}" class="${k < idx ? "done" : k === idx ? "cur" : ""}" style="--d:${dur}s"><i></i></button>`).join("");
+  $("psegs").querySelectorAll("button").forEach(b => {
+    b.onclick = () => {
+      P.playing = true;
+      goScene(+b.dataset.i);
+    };
+  });
+  const pl = $("player");
+  if (P.playing) {
+    pl.classList.remove("paused");
+    $("pplay").textContent = "⏸";
+    scheduleScene(dur * 1000);
+  } else {
+    clearTimeout(P.timer);
+    pl.classList.add("paused");
+    $("pplay").textContent = "▶";
+  }
+}
+
+function togglePlay() {
+  const pl = $("player");
+  if (P.playing) {
+    P.playing = false;
+    clearTimeout(P.timer);
+    P.rem = Math.max(300, P.rem - (performance.now() - P.t0));
+    pl.classList.add("paused");
+    $("pplay").textContent = "▶";
+  } else {
+    const atEnd = $("pplay").textContent === "🔁";
+    P.playing = true;
+    if (atEnd) {
+      goScene(0);
+      return;
+    }
+    pl.classList.remove("paused");
+    $("pplay").textContent = "⏸";
+    scheduleScene(P.rem || 2000);
+  }
+}
+
+/* ==================== RENDERIZAÇÃO DE TABELAS E CARDS ==================== */
+function renderMuscleTable(list, filterText = "") {
+  const q = normA(filterText);
+  const rows = q
+    ? list.filter(m => normA(m.n + " " + (m.o || "") + " " + (m.i || "") + " " + (m.loc || "") + " " + m.f).includes(q))
+    : list;
+
+  if (!rows.length) {
+    return `<p class="hint">Nenhum músculo encontrado para “${esc(filterText)}”.</p>`;
+  }
+
+  const showOI = rows.some(m => m.o || m.i);
+  const showLoc = rows.some(m => m.loc);
+
+  return `<div class="tscroll">
+    <table class="tb">
+      <thead>
+        <tr>
+          <th>Músculo</th>
+          ${showOI ? `<th>Origem</th><th>Inserção</th>` : ""}
+          ${showLoc ? `<th>Localização</th>` : ""}
+          <th>Ação principal</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows.map(m => `<tr class="${q ? "hl-row" : ""}">
+          <td>${esc(m.n)}</td>
+          ${showOI ? `<td>${esc(m.o || "—")}</td><td>${esc(m.i || "—")}</td>` : ""}
+          ${showLoc ? `<td>${esc(m.loc || "—")}</td>` : ""}
+          <td>${esc(m.f)}</td>
+        </tr>`).join("")}
+      </tbody>
+    </table>
+  </div>`;
+}
+
+/* ==================== NAVEGAÇÃO ENTRE TELAS ==================== */
+function showView(viewName) {
+  stopPlayer();
+  ["home", "topic", "quiz", "search"].forEach(k => {
+    $("v-" + k).classList.toggle("hidden", k !== viewName);
+  });
+  document.querySelectorAll(".tab[data-tab]").forEach(btn => {
+    btn.classList.toggle("on", btn.dataset.tab === (viewName === "topic" ? "home" : viewName));
+  });
+  $("main").scrollTop = 0;
+}
+
+document.querySelectorAll(".tab[data-tab]").forEach(btn => {
+  btn.onclick = () => {
+    const tab = btn.dataset.tab;
+    if (tab === "home") renderHome();
+    else if (tab === "search") renderSearch();
+    else if (tab === "quiz") renderQuizHome();
+  };
+});
+
+$("logo").onclick = renderHome;
+
+/* ==================== TELA INICIAL (TÓPICOS) ==================== */
+function renderHome() {
+  showView("home");
+  $("v-home").innerHTML = `<p class="hint" style="margin:0 2px 12px">
+    Selecione um tópico para estudar propriedades, contrações, origens, inserções e funções, ou acesse <b>Buscar</b> e <b>Treinar</b>.
+  </p>
+  <div class="topics">
+    ${TOPICS.map(t => `<button class="topic" data-t="${t.id}">
+      <span class="te" style="background:${t.bg}">${t.e}</span>
+      <span><b>${esc(t.t)}</b><small>${esc(t.d)}</small></span>
+      <span class="go">›</span>
+    </button>`).join("")}
+    <button class="topic t-train" id="home-train">
+      <span class="te">🎯</span>
+      <span><b>Treinar &amp; Simulado</b><small>${QZ.length} questões de múltipla escolha + Flash-Quiz de escrita com dica</small></span>
+      <span class="go">›</span>
+    </button>
+  </div>`;
+
+  $("v-home").querySelectorAll("[data-t]").forEach(btn => {
+    btn.onclick = () => openTopic(btn.dataset.t);
+  });
+  $("home-train").onclick = renderQuizHome;
+}
+
+/* ==================== ABA BUSCAR (EM TEMPO REAL) ==================== */
+let globalQuery = "";
+
+function renderSearch() {
+  showView("search");
+  const q = normA(globalQuery);
+  const matches = q
+    ? MUSCLES.filter(m => normA(m.n + " " + m.g + " " + (m.o || "") + " " + (m.i || "") + " " + (m.loc || "") + " " + m.f).includes(q))
+    : MUSCLES;
+
+  $("v-search").innerHTML = `<div class="card">
+    <span class="card-title">🔍 Buscar Músculos em Tempo Real</span>
+    <p class="hint">Filtre por nome do músculo, grupo anatômico, origem, inserção ou ação (ex.: <i>escapula, mandibula, sirs, patela, continencia</i>).</p>
+    <div class="search-wrap">
+      <input id="gs-in" class="search-in" placeholder="Digite para filtrar os ${MUSCLES.length} músculos..." value="${esc(globalQuery)}" autocomplete="off">
+      ${globalQuery ? `<button class="search-clr" id="gs-clr" aria-label="Limpar busca">✕</button>` : ""}
+    </div>
+    <div class="hint" style="margin-bottom:6px"><b>${matches.length}</b> resultado(s) encontrado(s)</div>
+    <div class="mgrid">
+      ${matches.slice(0, 60).map(m => {
+        const T = TOPICS.find(x => x.id === m.t);
+        return `<div class="mitem">
+          <div class="mitem-h">
+            <span>${esc(m.n)}</span>
+            <span class="mitem-tag">${T.e} ${esc(m.g)}</span>
+          </div>
+          <div class="mitem-b"><b>Ação:</b> ${esc(m.f)}</div>
+          ${(m.o || m.i || m.loc) ? `<div class="mitem-meta">
+            ${m.o ? `<span><b>Origem:</b> ${esc(m.o)}</span>` : ""}
+            ${m.i ? `<span><b>Inserção:</b> ${esc(m.i)}</span>` : ""}
+            ${m.loc ? `<span><b>Localização:</b> ${esc(m.loc)}</span>` : ""}
+          </div>` : ""}
+        </div>`;
+      }).join("")}
+    </div>
+    ${matches.length > 60 ? `<p class="hint" style="text-align:center;margin-top:10px">Exibindo os primeiros 60 de ${matches.length} resultados. Refine a busca para filtrar mais.</p>` : ""}
+  </div>`;
+
+  const inp = $("gs-in");
+  inp.oninput = () => {
+    globalQuery = inp.value;
+    renderSearch();
+    const fresh = $("gs-in");
+    fresh.focus();
+    fresh.setSelectionRange(fresh.value.length, fresh.value.length);
+  };
+  if ($("gs-clr")) {
+    $("gs-clr").onclick = () => {
+      globalQuery = "";
+      renderSearch();
+    };
+  }
+}
+
+/* ==================== ABRIR TÓPICOS ==================== */
+function openTopic(topicId) {
+  showView("topic");
+  const builders = {
+    prop: [pageProp, bindProp],
+    face: [pageFace, bindFace],
+    sup: [pageSup, bindSup],
+    tor: [pageTor, bindTor],
+    abd: [pageAbd, bindAbd],
+    pel: [pagePel, bindPel],
+    inf: [pageInf, bindInf]
+  };
+  const [renderFn, bindFn] = builders[topicId];
+  $("v-topic").innerHTML = `<button class="backbtn" id="back">← Tópicos</button>${renderFn()}`;
+  $("back").onclick = renderHome;
+  bindFn();
+}
+
+/* ==================== 1. PROPRIEDADES & CONTRAÇÕES ==================== */
+let propContrMode = "iso";
+
+function pageProp() {
+  return `<div class="card">
+    <span class="card-title">⚡ Propriedades do Tecido Muscular</span>
+    <p class="hint">O tecido muscular apresenta quatro propriedades básicas fundamentais para sua função:</p>
+    <div id="pbox"></div>
+    <button class="btn vio" id="anim-prop">▶ Iniciar player passo a passo (Propriedades &amp; Contrações)</button>
+    <div class="two2" style="margin-top:12px">
+      <div class="mini2"><b>1. Excitabilidade elétrica</b>Capacidade de responder a estímulos produzindo sinais elétricos chamados <b>potenciais de ação musculares</b>.</div>
+      <div class="mini2"><b>2. Contratilidade</b>Capacidade de se <b>contrair vigorosamente</b> quando estimulado por um potencial de ação, gerando tensão e puxando seus pontos de inserção.</div>
+      <div class="mini2"><b>3. Extensibilidade</b>Capacidade de se <b>estender com limites sem sofrer lesão</b>; o tecido conjuntivo interno limita o grau de extensibilidade.</div>
+      <div class="mini2"><b>4. Elasticidade</b>Capacidade do tecido muscular de <b>retornar ao comprimento e forma originais</b> depois de uma contração ou alongamento.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="card-title">🏋️ Contrações Isotônicas e Isométricas</span>
+    <p class="hint">Selecione um tipo de contração para visualizar o comportamento de tensão, comprimento e movimento:</p>
+    <div class="seg" id="cseg">
+      <button data-m="iso" class="${propContrMode === "iso" ? "on" : ""}">Isométrica</button>
+      <button data-m="conc" class="${propContrMode === "conc" ? "on" : ""}">Isotônica Concêntrica</button>
+      <button data-m="exc" class="${propContrMode === "exc" ? "on" : ""}">Isotônica Excêntrica</button>
+    </div>
+    <div id="cvis">${cardContraction(propContrMode)}</div>
+  </div>`;
+}
+
+function bindProp() {
+  $("cseg").onclick = e => {
+    const b = e.target.closest("[data-m]");
+    if (!b) return;
+    propContrMode = b.dataset.m;
+    $("cseg").querySelectorAll("button").forEach(btn => btn.classList.toggle("on", btn === b));
+    $("cvis").innerHTML = cardContraction(propContrMode);
+  };
+
+  $("anim-prop").onclick = () => {
+    mountPlayer($("pbox"), [
+      { t: "Excitabilidade elétrica", d: 6, vis: cardProperty("exc"), say: "Responde a estímulos gerando sinais elétricos: os <b>potenciais de ação musculares</b>." },
+      { t: "Contratilidade", d: 6, vis: cardProperty("con"), say: "Contrai-se <b>vigorosamente</b> ao potencial de ação, gerando tensão e puxando as inserções." },
+      { t: "Extensibilidade", d: 6, vis: cardProperty("ext"), say: "Estende-se com limites <b>sem sofrer lesão</b>; o tecido conjuntivo interno limita o alongamento." },
+      { t: "Elasticidade", d: 6, vis: cardProperty("ela"), say: "Retorna ao <b>comprimento e forma originais</b> após a contração ou o alongamento." },
+      { t: "Contração isométrica", d: 6.5, vis: cardContraction("iso"), say: "Tensão não vence a resistência: <b>comprimento não muda</b>, auxilia na postura e <b>gasta energia</b>." },
+      { t: "Contração isotônica concêntrica", d: 6.5, vis: cardContraction("conc"), say: "Tensão transpõe a resistência: o <b>músculo encurta</b> e reduz o ângulo na articulação." },
+      { t: "Contração isotônica excêntrica", d: 6.5, vis: cardContraction("exc"), say: "Contração isotônica em que o <b>comprimento do músculo aumenta</b> durante a contração." }
+    ]);
+    $("pbox").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+}
+
+/* ==================== 2. MÚSCULOS DA FACE E CABEÇA ==================== */
+let faceTab = "all", faceFilter = "", faceZone = "all";
+
+function pageFace() {
+  return `<div class="card">
+    <span class="card-title">😮 Músculos da Face e Cabeça – Visão Geral</span>
+    <p class="hint">Os músculos da face e da cabeça dividem-se didaticamente em <b>músculos da expressão facial (17)</b> e <b>músculos da mastigação (4)</b>, além de músculos dos olhos, língua, palato e região cervical.</p>
+    <div id="fmap"></div>
+    <div class="seg" id="fseg" style="margin-top:10px">
+      <button data-f="all" class="${faceTab === "all" ? "on" : ""}">Todos (21)</button>
+      <button data-f="mim" class="${faceTab === "mim" ? "on" : ""}">Expressão Facial (17)</button>
+      <button data-f="mas" class="${faceTab === "mas" ? "on" : ""}">Mastigação (4)</button>
+    </div>
+  </div>
+  <div class="card" id="fcard"></div>`;
+}
+
+function renderFaceSub() {
+  const list = faceTab === "mim"
+    ? MUSCLES.filter(m => m.t === "face" && m.g.includes("Expressão"))
+    : faceTab === "mas"
+      ? MUSCLES.filter(m => m.t === "face" && m.g.includes("Mastigação"))
+      : MUSCLES.filter(m => m.t === "face");
+
+  const title = faceTab === "mim"
+    ? "17 Músculos da Expressão Facial"
+    : faceTab === "mas"
+      ? "4 Músculos da Mastigação"
+      : "Músculos da Face e Cabeça (Expressão Facial e Mastigação)";
+
+  const desc = faceTab === "mim"
+    ? "Produzem expressões faciais, movimentam pálpebras, sobrancelhas, nariz, lábios, bochechas e pele cervical."
+    : faceTab === "mas"
+      ? "Atuam na articulação temporomandibular para elevar, retrair, protruir, lateralizar ou auxiliar na abertura da mandíbula."
+      : "Visão completa dos 17 músculos da expressão facial e dos 4 músculos da mastigação.";
+
+  $("fcard").innerHTML = `<span class="card-title">${esc(title)}</span>
+    <p class="hint">${esc(desc)}</p>
+    <div class="search-wrap"><input id="ffin" class="search-in" placeholder="Filtrar músculo ou função..." value="${esc(faceFilter)}" autocomplete="off"></div>
+    ${renderMuscleTable(list, faceFilter)}
+    <div class="sbox"><b>Nota anatômica:</b> Masseter, Temporal e Pterigoideo medial elevam a mandíbula; o Pterigoideo lateral promove protrusão, lateralidade e auxilia na abertura da boca.</div>`;
+
+  $("ffin").oninput = e => {
+    faceFilter = e.target.value;
+    renderFaceSub();
+    const i = $("ffin");
+    i.focus();
+    i.setSelectionRange(i.value.length, i.value.length);
+  };
+}
+
+function bindFace() {
+  const drawMap = () => {
+    $("fmap").innerHTML = renderRegionCard({
+      title: "Mapa Estrutural – Face & Cabeça",
+      subtitle: "Toque para filtrar o grupo",
+      activeKey: faceZone,
+      attrName: "fz",
+      imgKey: `face_${faceZone}`,
+      zones: [
+        { key: "mim", label: "Expressão Facial (17)", info: "Frontal, orbicular dos olhos/boca, zigomáticos, platisma..." },
+        { key: "mas", label: "Mastigação (4)", info: "Masseter, temporal, pterigoideos medial e lateral" },
+        { key: "all", label: "Visão Geral", info: "Inclui olhos, língua, palato e região cervical" }
+      ]
+    });
+    $("fmap").querySelectorAll("[data-fz]").forEach(b => {
+      b.onclick = () => {
+        faceZone = b.dataset.fz;
+        faceTab = faceZone;
+        $("fseg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x.dataset.f === faceTab));
+        drawMap();
+        renderFaceSub();
+      };
+    });
+  };
+  drawMap();
+  renderFaceSub();
+
+  $("fseg").onclick = e => {
+    const b = e.target.closest("[data-f]");
+    if (!b) return;
+    faceTab = b.dataset.f;
+    faceZone = b.dataset.f;
+    $("fseg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+    drawMap();
+    renderFaceSub();
+  };
+}
+
+/* ==================== 3. MÚSCULOS DOS MEMBROS SUPERIORES ==================== */
+let supTab = "esc", supFilter = "";
+const SUP_CHIPS = [
+  ["esc", "Escápula (5)"],
+  ["omb", "Ombro & SIRS (4)"],
+  ["bra", "Braço (5)"],
+  ["ant_a", "Antebraço Anterior (8)"],
+  ["ant_p", "Antebraço Posterior (11)"]
+];
+
+function pageSup() {
+  return `<div class="card">
+    <span class="card-title">💪 Músculos dos Membros Superiores – Visão Geral</span>
+    <p class="hint">Envolvem a movimentação e estabilização da escápula, do ombro (manguito rotador – SIRS), do braço (compartimentos anterior e posterior) e do antebraço (anterior e posterior).</p>
+    <div id="smap"></div>
+  </div>
+  <div class="chips" id="schips">
+    ${SUP_CHIPS.map(([k, n]) => `<button data-k="${k}" class="${supTab === k ? "on" : ""}">${esc(n)}</button>`).join("")}
+  </div>
+  <div class="card" id="scard"></div>`;
+}
+
+function renderSupSub() {
+  let html = "";
+  if (supTab === "esc") {
+    const list = MUSCLES.filter(m => m.t === "sup" && m.g === "Escápula");
+    html = `<span class="card-title">Músculos Relacionados à Escápula</span>
+      <p class="hint">Controlam elevação, depressão, protração, retração e rotações superior/inferior da escápula.</p>
+      ${renderMuscleTable(list, supFilter)}`;
+  } else if (supTab === "omb") {
+    const list = MUSCLES.filter(m => m.t === "sup" && m.g.includes("SIRS"));
+    html = `<span class="card-title">Ombro e Manguito Rotador – Mnemônico SIRS</span>
+      <p class="hint">Responsáveis pela estabilização dinâmica da articulação glenoumeral e rotações/abdução do braço.</p>
+      <div class="mnem">
+        <span><b>S</b>upraespinal</span>
+        <span><b>I</b>nfraespinal</span>
+        <span><b>R</b>edondo menor</span>
+        <span><b>S</b>ubescapular</span>
+      </div>
+      <div class="sbox" style="margin-bottom:10px"><b>Mnemônico SIRS:</b> <b>S</b>upraespinal, <b>I</b>nfraespinal, <b>R</b>edondo menor e <b>S</b>ubescapular.</div>
+      ${renderMuscleTable(list, supFilter)}`;
+  } else if (supTab === "bra") {
+    const ant = MUSCLES.filter(m => m.t === "sup" && m.g === "Braço – Anterior");
+    const pos = MUSCLES.filter(m => m.t === "sup" && m.g === "Braço – Posterior");
+    html = `<span class="card-title">Músculos do Braço (Anterior e Posterior)</span>
+      <h2 class="sec">Compartimento Anterior</h2>
+      ${renderMuscleTable(ant, supFilter)}
+      <h2 class="sec">Compartimento Posterior</h2>
+      ${renderMuscleTable(pos, supFilter)}`;
+  } else if (supTab === "ant_a") {
+    const list = MUSCLES.filter(m => m.t === "sup" && m.g === "Antebraço – Anterior");
+    html = `<span class="card-title">Músculos do Antebraço – Compartimento Anterior (8)</span>
+      <p class="hint">Predominantemente flexores do punho/dedos/polegar e pronadores do antebraço.</p>
+      <div class="search-wrap"><input id="sfin" class="search-in" placeholder="Filtrar músculo do antebraço anterior..." value="${esc(supFilter)}" autocomplete="off"></div>
+      ${renderMuscleTable(list, supFilter)}`;
+  } else {
+    const list = MUSCLES.filter(m => m.t === "sup" && m.g === "Antebraço – Posterior");
+    html = `<span class="card-title">Músculos do Antebraço – Compartimento Posterior (11)</span>
+      <p class="hint">Inclui braquiorradial, extensores do punho/dedos/polegar/indicador e supinador.</p>
+      <div class="search-wrap"><input id="sfin" class="search-in" placeholder="Filtrar músculo do antebraço posterior..." value="${esc(supFilter)}" autocomplete="off"></div>
+      ${renderMuscleTable(list, supFilter)}`;
+  }
+
+  $("scard").innerHTML = html;
+  if ($("sfin")) {
+    $("sfin").oninput = e => {
+      supFilter = e.target.value;
+      renderSupSub();
+      const i = $("sfin");
+      i.focus();
+      i.setSelectionRange(i.value.length, i.value.length);
+    };
+  }
+}
+
+function bindSup() {
+  const drawMap = () => {
+    $("smap").innerHTML = renderRegionCard({
+      title: "Regiões do Membro Superior",
+      subtitle: "Selecione um segmento",
+      activeKey: supTab,
+      attrName: "sz",
+      imgKey: `sup_${supTab}`,
+      zones: [
+        { key: "esc", label: "Escápula", info: "Trapézio, serrátil anterior, romboides, levantador" },
+        { key: "omb", label: "Ombro (SIRS)", info: "Supraespinal, infraespinal, redondo menor, subescapular" },
+        { key: "bra", label: "Braço", info: "Anterior (bíceps, braquial, coracobraquial) e Posterior (tríceps, ancôneo)" },
+        { key: "ant_a", label: "Antebraço Ant.", info: "Pronadores e flexores (8 músculos)" },
+        { key: "ant_p", label: "Antebraço Post.", info: "Extensores e supinador (11 músculos)" }
+      ]
+    });
+    $("smap").querySelectorAll("[data-sz]").forEach(b => {
+      b.onclick = () => {
+        supTab = b.dataset.sz;
+        supFilter = "";
+        $("schips").querySelectorAll("button").forEach(x => x.classList.toggle("on", x.dataset.k === supTab));
+        drawMap();
+        renderSupSub();
+      };
+    });
+  };
+  drawMap();
+  renderSupSub();
+
+  $("schips").onclick = e => {
+    const b = e.target.closest("[data-k]");
+    if (!b) return;
+    supTab = b.dataset.k;
+    supFilter = "";
+    $("schips").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+    drawMap();
+    renderSupSub();
+  };
+}
+
+/* ==================== 4. MÚSCULOS DO TÓRAX ==================== */
+let torTab = "all";
+
+function pageTor() {
+  return `<div class="card">
+    <span class="card-title">🫁 Músculos do Tórax – Visão Geral</span>
+    <p class="hint">Compreendem os músculos da <b>parede torácica</b>, os <b>músculos superficiais do tórax</b> e o <b>Diafragma</b>, atuando na respiração, postura e movimentação dos membros superiores.</p>
+    <div id="tmap"></div>
+    <div class="seg" id="tseg" style="margin-top:10px">
+      <button data-k="all" class="${torTab === "all" ? "on" : ""}">Visão Geral</button>
+      <button data-k="par" class="${torTab === "par" ? "on" : ""}">Parede Torácica (6)</button>
+      <button data-k="sup" class="${torTab === "sup" ? "on" : ""}">Superficiais (4)</button>
+      <button data-k="dia" class="${torTab === "dia" ? "on" : ""}">Diafragma</button>
+    </div>
+  </div>
+  <div class="card" id="tcard"></div>`;
+}
+
+function renderTorSub() {
+  if (torTab === "par") {
+    const list = MUSCLES.filter(m => m.t === "tor" && m.g === "Parede Torácica");
+    $("tcard").innerHTML = `<span class="card-title">Músculos da Parede Torácica</span>
+      <p class="hint">Localização e função principal na mecânica respiratória:</p>
+      ${renderMuscleTable(list)}`;
+  } else if (torTab === "sup") {
+    const list = MUSCLES.filter(m => m.t === "tor" && m.g === "Superficiais do Tórax");
+    $("tcard").innerHTML = `<span class="card-title">Músculos Superficiais do Tórax</span>
+      <p class="hint">Origem, inserção e ação principal:</p>
+      ${renderMuscleTable(list)}`;
+  } else if (torTab === "dia") {
+    const list = MUSCLES.filter(m => m.t === "tor" && m.g === "Diafragma");
+    $("tcard").innerHTML = `<span class="card-title">Diafragma</span>
+      ${renderMuscleTable(list)}
+      <div class="sbox"><b>Destaque:</b> O diafragma é o <b>principal músculo da inspiração</b> e separa anatomicamente a cavidade torácica da cavidade abdominal.</div>`;
+  } else {
+    $("tcard").innerHTML = `<span class="card-title">Resumo Estrutural do Tórax</span>
+      <div class="two2">
+        <div class="mini2"><b>Parede Torácica</b>Intercostais externos, internos e íntimos, subcostais, transverso do tórax e levantadores das costelas.</div>
+        <div class="mini2"><b>Superficiais do Tórax</b>Peitoral maior, peitoral menor, serrátil anterior e subclávio.</div>
+        <div class="mini2"><b>Diafragma</b>Principal músculo da inspiração; separa a cavidade torácica da cavidade abdominal.</div>
+        <div class="mini2"><b>Dinâmica Respiratória</b>Inspiração amplia o volume torácico; expiração envolve relaxamento e/ou depressão costal.</div>
+      </div>`;
+  }
+}
+
+function bindTor() {
+  const drawMap = () => {
+    $("tmap").innerHTML = renderRegionCard({
+      title: "Compartimentos Torácicos",
+      subtitle: "Toque para detalhar",
+      activeKey: torTab,
+      attrName: "tz",
+      imgKey: `tor_${torTab}`,
+      zones: [
+        { key: "par", label: "Parede Torácica", info: "Intercostais, subcostais, transverso do tórax, levantadores" },
+        { key: "sup", label: "Superficiais", info: "Peitoral maior, peitoral menor, serrátil anterior, subclávio" },
+        { key: "dia", label: "Diafragma", info: "Principal músculo da inspiração" }
+      ]
+    });
+    $("tmap").querySelectorAll("[data-tz]").forEach(b => {
+      b.onclick = () => {
+        torTab = b.dataset.tz;
+        $("tseg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x.dataset.k === torTab));
+        drawMap();
+        renderTorSub();
+      };
+    });
+  };
+  drawMap();
+  renderTorSub();
+
+  $("tseg").onclick = e => {
+    const b = e.target.closest("[data-k]");
+    if (!b) return;
+    torTab = b.dataset.k;
+    $("tseg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+    drawMap();
+    renderTorSub();
+  };
+}
+
+/* ==================== 5. MÚSCULOS DO ABDOME ==================== */
+let abdTab = "all";
+
+function pageAbd() {
+  return `<div class="card">
+    <span class="card-title">🛡️ Músculos do Abdome – Visão Geral</span>
+    <p class="hint">Constituem a parede abdominal, protegendo vísceras, estabilizando o tronco, movimentando a coluna e auxiliando na pressão intra-abdominal e respiração. Dividem-se em <b>anteriores</b>, <b>laterais</b> e <b>posteriores</b>.</p>
+    <div id="amap"></div>
+    <div class="seg" id="aseg" style="margin-top:10px">
+      <button data-k="all" class="${abdTab === "all" ? "on" : ""}">Todos (8)</button>
+      <button data-k="ant" class="${abdTab === "ant" ? "on" : ""}">Anteriores (2)</button>
+      <button data-k="lat" class="${abdTab === "lat" ? "on" : ""}">Laterais (3)</button>
+      <button data-k="pos" class="${abdTab === "pos" ? "on" : ""}">Posteriores (3)</button>
+    </div>
+  </div>
+  <div class="card" id="acard"></div>`;
+}
+
+function renderAbdSub() {
+  const groupMap = {
+    ant: "Anteriores do Abdome",
+    lat: "Laterais do Abdome",
+    pos: "Posteriores do Abdome"
+  };
+  const list = abdTab === "all"
+    ? MUSCLES.filter(m => m.t === "abd")
+    : MUSCLES.filter(m => m.t === "abd" && m.g === groupMap[abdTab]);
+
+  const heading = abdTab === "all"
+    ? "Todos os Músculos do Abdome (Origem, Inserção e Ação)"
+    : `Músculos ${groupMap[abdTab]}`;
+
+  $("acard").innerHTML = `<span class="card-title">${esc(heading)}</span>
+    ${renderMuscleTable(list)}
+    <div class="sbox"><b>Rotação do tronco:</b> O <b>oblíquo externo</b> realiza rotação <b>contralateral</b>, enquanto o <b>oblíquo interno</b> realiza rotação <b>ipsilateral</b>.</div>`;
+}
+
+function bindAbd() {
+  const drawMap = () => {
+    $("amap").innerHTML = renderRegionCard({
+      title: "Parede Abdominal",
+      subtitle: "Selecione um grupo muscular",
+      activeKey: abdTab,
+      attrName: "az",
+      imgKey: `abd_${abdTab}`,
+      zones: [
+        { key: "ant", label: "Anteriores (2)", info: "Reto do abdome e piramidal" },
+        { key: "lat", label: "Laterais (3)", info: "Oblíquo externo, oblíquo interno e transverso do abdome" },
+        { key: "pos", label: "Posteriores (3)", info: "Quadrado lombar, psoas maior e ilíaco" }
+      ]
+    });
+    $("amap").querySelectorAll("[data-az]").forEach(b => {
+      b.onclick = () => {
+        abdTab = b.dataset.az;
+        $("aseg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x.dataset.k === abdTab));
+        drawMap();
+        renderAbdSub();
+      };
+    });
+  };
+  drawMap();
+  renderAbdSub();
+
+  $("aseg").onclick = e => {
+    const b = e.target.closest("[data-k]");
+    if (!b) return;
+    abdTab = b.dataset.k;
+    $("aseg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+    drawMap();
+    renderAbdSub();
+  };
+}
+
+/* ==================== 6. MÚSCULOS DO ASSOALHO PÉLVICO ==================== */
+let pelTab = "all";
+
+function pagePel() {
+  return `<div class="card">
+    <span class="card-title">🩺 Músculos do Assoalho Pélvico – Visão Geral</span>
+    <p class="hint">Composto pelo <b>Diafragma pélvico</b> e pelos <b>Músculos do períneo</b> (planos superficial e profundo, além das estruturas relacionadas à continência anal), sustentando órgãos pélvicos e controlando esfíncteres.</p>
+    <div id="pmap"></div>
+    <div class="seg" id="pseg" style="margin-top:10px">
+      <button data-k="all" class="${pelTab === "all" ? "on" : ""}">Visão Geral</button>
+      <button data-k="dia" class="${pelTab === "dia" ? "on" : ""}">Diafragma Pélvico</button>
+      <button data-k="sup" class="${pelTab === "sup" ? "on" : ""}">Períneo Superficial</button>
+      <button data-k="pro" class="${pelTab === "pro" ? "on" : ""}">Profundo &amp; Anal</button>
+    </div>
+  </div>
+  <div class="card" id="pcard"></div>`;
+}
+
+function renderPelSub() {
+  if (pelTab === "dia") {
+    const list = MUSCLES.filter(m => m.t === "pel" && m.g.includes("Diafragma Pélvico"));
+    $("pcard").innerHTML = `<span class="card-title">Diafragma Pélvico</span>
+      <p class="hint">Inclui o <b>Músculo levantador do ânus</b> (porções <b>Puborretal</b>, <b>Pubococcígeo</b> e <b>Iliococcígeo</b>) e o <b>Músculo coccígeo (isquiococcígeo)</b>.</p>
+      ${renderMuscleTable(list)}`;
+  } else if (pelTab === "sup") {
+    const list = MUSCLES.filter(m => m.t === "pel" && m.g.includes("Superficial"));
+    $("pcard").innerHTML = `<span class="card-title">Períneo – Plano Superficial</span>
+      <p class="hint">Isquiocavernoso, bulboesponjoso e transverso superficial do períneo.</p>
+      ${renderMuscleTable(list)}`;
+  } else if (pelTab === "pro") {
+    const list = MUSCLES.filter(m => m.t === "pel" && (m.g.includes("Profundo") || m.g.includes("Continência")));
+    $("pcard").innerHTML = `<span class="card-title">Períneo – Plano Profundo e Continência Anal</span>
+      <p class="hint">Esfíncter externo da uretra, transverso profundo do períneo e esfíncteres externo (voluntário) e interno (involuntário) do ânus.</p>
+      ${renderMuscleTable(list)}`;
+  } else {
+    $("pcard").innerHTML = `<span class="card-title">Organização do Assoalho Pélvico</span>
+      <div class="two2">
+        <div class="mini2"><b>Diafragma Pélvico</b>Levantador do ânus (puborretal, pubococcígeo, iliococcígeo) + músculo coccígeo (isquiococcígeo).</div>
+        <div class="mini2"><b>Períneo – Plano Superficial</b>Isquiocavernoso, bulboesponjoso e transverso superficial do períneo.</div>
+        <div class="mini2"><b>Períneo – Plano Profundo</b>Esfíncter externo da uretra e transverso profundo do períneo.</div>
+        <div class="mini2"><b>Continência Anal</b>Esfíncter externo do ânus (controle voluntário) e esfíncter interno do ânus (controle involuntário).</div>
+      </div>`;
+  }
+}
+
+function bindPel() {
+  const drawMap = () => {
+    $("pmap").innerHTML = renderRegionCard({
+      title: "Assoalho Pélvico e Períneo",
+      subtitle: "Selecione uma camada",
+      activeKey: pelTab,
+      attrName: "pz",
+      imgKey: `pel_${pelTab}`,
+      zones: [
+        { key: "dia", label: "Diafragma Pélvico", info: "Puborretal, pubococcígeo, iliococcígeo e coccígeo" },
+        { key: "sup", label: "Períneo Superficial", info: "Isquiocavernoso, bulboesponjoso, transverso superficial" },
+        { key: "pro", label: "Profundo & Anal", info: "Esfíncter da uretra, transverso profundo, esfíncteres anais" }
+      ]
+    });
+    $("pmap").querySelectorAll("[data-pz]").forEach(b => {
+      b.onclick = () => {
+        pelTab = b.dataset.pz;
+        $("pseg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x.dataset.k === pelTab));
+        drawMap();
+        renderPelSub();
+      };
+    });
+  };
+  drawMap();
+  renderPelSub();
+
+  $("pseg").onclick = e => {
+    const b = e.target.closest("[data-k]");
+    if (!b) return;
+    pelTab = b.dataset.k;
+    $("pseg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+    drawMap();
+    renderPelSub();
+  };
+}
+
+/* ==================== 7. MÚSCULOS DOS MEMBROS INFERIORES ==================== */
+let infTab = "qua", infFilter = "";
+const INF_CHIPS = [
+  ["qua", "Quadril e Glútea (10)"],
+  ["cox_q", "Coxa – Quadríceps & Sartório (5)"],
+  ["cox_p", "Coxa – Posteriores (4)"],
+  ["per", "Perna (4)"]
+];
+
+function pageInf() {
+  return `<div class="card">
+    <span class="card-title">🦵 Músculos dos Membros Inferiores – Visão Geral</span>
+    <p class="hint">Sustentam o peso corporal, mantêm postura e equilíbrio e executam locomoção e movimentos do quadril, joelho, perna e pé.</p>
+    <div id="imap"></div>
+  </div>
+  <div class="chips" id="ichips">
+    ${INF_CHIPS.map(([k, n]) => `<button data-k="${k}" class="${infTab === k ? "on" : ""}">${esc(n)}</button>`).join("")}
+  </div>
+  <div class="card" id="icard"></div>`;
+}
+
+function renderInfSub() {
+  let html = "";
+  if (infTab === "qua") {
+    const list = MUSCLES.filter(m => m.t === "inf" && m.g === "Quadril e Glútea (10)");
+    html = `<span class="card-title">Região do Quadril e Glútea (10 Músculos)</span>
+      <p class="hint">Piriforme, gêmeo superior, obturador interno, gêmeo inferior, quadrado femoral, obturador externo, glúteo máximo, glúteo médio, glúteo mínimo e tensor da fáscia lata.</p>
+      <div class="search-wrap"><input id="ifin" class="search-in" placeholder="Filtrar músculo do quadril ou glúteo..." value="${esc(infFilter)}" autocomplete="off"></div>
+      ${renderMuscleTable(list, infFilter)}`;
+  } else if (infTab === "cox_q") {
+    const list = MUSCLES.filter(m => m.t === "inf" && m.g.includes("Quadríceps"));
+    html = `<span class="card-title">Coxa – Quadríceps Femoral e Sartório</span>
+      <p class="hint">O quadríceps femoral é composto por reto femoral, vasto lateral, vasto medial e vasto intermédio.</p>
+      ${renderMuscleTable(list, infFilter)}
+      <div class="sbox"><b>Nota funcional:</b> O <b>reto femoral</b> é biarticular (atua na extensão do joelho e flexão do quadril), enquanto os vastos atuam principalmente na extensão do joelho.</div>`;
+  } else if (infTab === "cox_p") {
+    const list = MUSCLES.filter(m => m.t === "inf" && m.g === "Coxa – Posteriores");
+    html = `<span class="card-title">Coxa – Músculos Posteriores</span>
+      <p class="hint">Bíceps femoral (cabeças longa e curta), semitendíneo e semimembranáceo.</p>
+      ${renderMuscleTable(list, infFilter)}`;
+  } else {
+    const list = MUSCLES.filter(m => m.t === "inf" && m.g === "Perna");
+    html = `<span class="card-title">Músculos da Perna</span>
+      <p class="hint">Poplíteo, tibial posterior, flexor longo dos dedos e flexor longo do hálux.</p>
+      ${renderMuscleTable(list, infFilter)}`;
+  }
+
+  $("icard").innerHTML = html;
+  if ($("ifin")) {
+    $("ifin").oninput = e => {
+      infFilter = e.target.value;
+      renderInfSub();
+      const i = $("ifin");
+      i.focus();
+      i.setSelectionRange(i.value.length, i.value.length);
+    };
+  }
+}
+
+function bindInf() {
+  const drawMap = () => {
+    $("imap").innerHTML = renderRegionCard({
+      title: "Regiões do Membro Inferior",
+      subtitle: "Selecione um grupo",
+      activeKey: infTab,
+      attrName: "iz",
+      imgKey: `inf_${infTab}`,
+      zones: [
+        { key: "qua", label: "Quadril e Glútea (10)", info: "Glúteos, piriforme, gêmeos, obturadores, quadrado femoral, TFL" },
+        { key: "cox_q", label: "Quadríceps & Sartório", info: "Reto femoral, vastos (lateral, medial, intermédio) e sartório" },
+        { key: "cox_p", label: "Coxa Posterior (4)", info: "Bíceps femoral (longa e curta), semitendíneo, semimembranáceo" },
+        { key: "per", label: "Perna (4)", info: "Poplíteo, tibial posterior, flexor longo dos dedos, flexor longo do hálux" }
+      ]
+    });
+    $("imap").querySelectorAll("[data-iz]").forEach(b => {
+      b.onclick = () => {
+        infTab = b.dataset.iz;
+        infFilter = "";
+        $("ichips").querySelectorAll("button").forEach(x => x.classList.toggle("on", x.dataset.k === infTab));
+        drawMap();
+        renderInfSub();
+      };
+    });
+  };
+  drawMap();
+  renderInfSub();
+
+  $("ichips").onclick = e => {
+    const b = e.target.closest("[data-k]");
+    if (!b) return;
+    infTab = b.dataset.k;
+    infFilter = "";
+    $("ichips").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+    drawMap();
+    renderInfSub();
+  };
+}
+
+/* ==================== BANCO DE QUESTÕES MÚLTIPLA ESCOLHA ==================== */
+const QZ = [
+  { t: "prop", q: "Qual propriedade do tecido muscular permite responder a estímulos gerando sinais elétricos chamados potenciais de ação musculares?", o: ["Excitabilidade elétrica", "Contratilidade", "Extensibilidade", "Elasticidade"], a: 0, x: "A <b>excitabilidade elétrica</b> é a capacidade de responder a estímulos gerando potenciais de ação musculares." },
+  { t: "prop", q: "Qual propriedade descreve a capacidade do tecido muscular de retornar ao comprimento e forma originais após contração ou alongamento?", o: ["Elasticidade", "Extensibilidade", "Excitabilidade elétrica", "Contratilidade"], a: 0, x: "A <b>elasticidade</b> garante o retorno ao comprimento e forma originais após contração ou alongamento." },
+  { t: "prop", q: "O que limita o grau de extensibilidade do músculo ao ser estendido?", o: ["O tecido conjuntivo interno", "A perda de excitabilidade", "A ausência de tensão", "A inserção óssea"], a: 0, x: "O tecido muscular se estende com limites sem lesão, sendo o <b>tecido conjuntivo interno</b> o limitador do grau de extensibilidade." },
+  { t: "prop", q: "Na contração isométrica, o que ocorre com o comprimento muscular e com o gasto energético?", o: ["O comprimento não muda e há gasto de energia", "O músculo sempre encurta sem gastar energia", "O comprimento aumenta e não há gasto de energia", "Não há geração de tensão nem gasto energético"], a: 0, x: "Na contração <b>isométrica</b>, a tensão não vence a resistência, o comprimento não muda, mantém a postura e <b>há gasto de energia</b>." },
+  { t: "prop", q: "Na contração isotônica concêntrica, o que ocorre quando a tensão transpõe a resistência?", o: ["O músculo encurta e reduz o ângulo articular", "O músculo alonga sem gerar tensão", "O comprimento permanece fixo sem movimento", "O músculo apenas relaxa"], a: 0, x: "Na contração <b>isotônica concêntrica</b>, a tensão supera a resistência, o músculo encurta e reduz o ângulo na articulação." },
+  { t: "prop", q: "Qual tipo de contração ocorre quando o comprimento do músculo aumenta durante a contração?", o: ["Contração isotônica excêntrica", "Contração isométrica", "Contração isotônica concêntrica", "Contração passiva sem estímulo"], a: 0, x: "Na contração <b>isotônica excêntrica</b>, o comprimento do músculo aumenta durante a contração." },
+
+  { t: "face", q: "Quantos músculos da expressão facial e quantos da mastigação são destacados no estudo da face e cabeça?", o: ["17 da expressão facial e 4 da mastigação", "4 da expressão facial e 17 da mastigação", "12 da expressão facial e 6 da mastigação", "20 da expressão facial e 2 da mastigação"], a: 0, x: "São <b>17 músculos da expressão facial</b> e <b>4 músculos da mastigação</b> (masseter, temporal, pterigoideo medial e pterigoideo lateral)." },
+  { t: "face", q: "Qual músculo da mastigação realiza protrusão, lateralidade e auxilia na abertura da mandíbula?", o: ["Pterigoideo lateral", "Masseter", "Temporal", "Pterigoideo medial"], a: 0, x: "O <b>pterigoideo lateral</b> promove protrusão, lateralidade e auxilia na abertura da boca." },
+  { t: "face", q: "Qual músculo da expressão facial traciona inferiormente a pele da região inferior da face e do pescoço?", o: ["Platisma", "Frontal", "Prócero", "Zigomático menor"], a: 0, x: "O <b>platisma</b> traciona inferiormente a pele da região inferior da face e do pescoço." },
+  { t: "face", q: "Qual músculo da expressão facial aproxima e abaixa as sobrancelhas?", o: ["Corrugador do supercílio", "Occipital", "Bucinador", "Mentual"], a: 0, x: "O <b>corrugador do supercílio</b> aproxima e abaixa as sobrancelhas." },
+
+  { t: "sup", q: "Quais músculos compõem o manguito rotador (mnemônico SIRS) do ombro?", o: ["Supraespinal, infraespinal, redondo menor e subescapular", "Supraespinal, deltoide, bíceps e tríceps", "Subescapular, redondo maior, peitoral menor e serrátil", "Infraespinal, trapézio, romboide maior e ancôneo"], a: 0, x: "<b>SIRS</b>: <b>S</b>upraespinal, <b>I</b>nfraespinal, <b>R</b>edondo menor e <b>S</b>ubescapular." },
+  { t: "sup", q: "Qual músculo do compartimento anterior do braço é o principal flexor do cotovelo?", o: ["Braquial", "Tríceps braquial", "Ancôneo", "Supinador"], a: 0, x: "O <b>braquial</b> é o principal flexor do cotovelo no compartimento anterior do braço." },
+  { t: "sup", q: "Qual músculo do compartimento posterior do braço realiza a extensão do cotovelo?", o: ["Tríceps braquial", "Bíceps braquial", "Coracobraquial", "Pronador redondo"], a: 0, x: "O <b>tríceps braquial</b> é o principal extensor do cotovelo (auxiliado pelo ancôneo)." },
+  { t: "sup", q: "Qual músculo do compartimento anterior do antebraço tensiona a aponeurose palmar e faz flexão do punho?", o: ["Palmar longo", "Supinador", "Extensor do indicador", "Braquiorradial"], a: 0, x: "O <b>palmar longo</b> realiza flexão do punho e tensiona a aponeurose palmar." },
+  { t: "sup", q: "Qual músculo da escápula promove protração e rotação superior da escápula?", o: ["Serrátil anterior", "Romboide menor", "Levantador da escápula", "Romboide maior"], a: 0, x: "O <b>serrátil anterior</b> promove protração e rotação superior da escápula." },
+
+  { t: "tor", q: "Qual é o principal músculo da inspiração e separa a cavidade torácica da abdominal?", o: ["Diafragma", "Transverso do tórax", "Subclávio", "Intercostais íntimos"], a: 0, x: "O <b>diafragma</b> é o principal músculo da inspiração e separa anatomicamente as cavidades torácica e abdominal." },
+/* ==================== FLASH-QUIZ ESCRITA COM IMAGEM ==================== */
+const FLASH_ITEMS = [
+  { g: "prop", img: "prop_exc", q: "Observe a ilustração: qual propriedade muscular permite responder a estímulos produzindo potenciais de ação musculares?", name: "Excitabilidade elétrica", ans: ["excitabilidade eletrica", "excitabilidade"], x: "A excitabilidade elétrica gera potenciais de ação musculares em resposta a estímulos." },
+  { g: "prop", img: "contr_conc", q: "Observe a ilustração: qual tipo de contração ocorre quando a tensão transpõe a resistência e o músculo encurta?", name: "Isotônica concêntrica", ans: ["isotonica concentrica", "concentrica"], x: "Na contração isotônica concêntrica, o músculo encurta e reduz o ângulo articular." },
+  { g: "face", img: "face_mas", q: "Observe a prancha da face/cabeça: qual músculo da mastigação realiza protrusão, lateralidade e auxilia na abertura da boca?", name: "Pterigoideo lateral", ans: ["pterigoideo lateral"], x: "O pterigoideo lateral realiza protrusão, lateralidade e auxilia na abertura da mandíbula." },
+  { g: "face", img: "face_mim", q: "Observe a prancha da face/cabeça: qual músculo da expressão facial traciona inferiormente a pele da face inferior e do pescoço?", name: "Platisma", ans: ["platisma"], x: "O platisma traciona inferiormente a pele da região inferior da face e do pescoço." },
+  { g: "sup", img: "sup_bra", q: "Observe a ilustração do membro superior: qual músculo do compartimento anterior do braço é o principal flexor do cotovelo?", name: "Braquial", ans: ["braquial"], x: "O braquial é o principal flexor do cotovelo." },
+  { g: "sup", img: "sup_omb", q: "Observe o manguito rotador na ilustração: qual sigla resume os quatro músculos estabilizadores do ombro?", name: "SIRS", ans: ["sirs"], x: "SIRS: Supraespinal, Infraespinal, Redondo menor e Subescapular." },
+  { g: "tor", img: "tor_dia", q: "Observe a prancha do tórax: qual é o principal músculo da inspiração e separa a cavidade torácica da abdominal?", name: "Diafragma", ans: ["diafragma"], x: "O diafragma é o principal músculo da inspiração." },
+  { g: "tor", img: "tor_sup", q: "Observe os músculos superficiais do tórax: qual músculo se insere no sulco intertubercular do úmero?", name: "Peitoral maior", ans: ["peitoral maior"], x: "O peitoral maior insere-se no sulco intertubercular do úmero." },
+  { g: "abd", img: "abd_lat", q: "Observe a parede abdominal: qual músculo lateral do abdome realiza rotação contralateral do tronco?", name: "Oblíquo externo", ans: ["obliquo externo"], x: "O oblíquo externo realiza rotação contralateral, inclinação lateral e compressão abdominal." },
+  { g: "abd", img: "abd_pos", q: "Observe a parede posterior do abdome: qual músculo se origina na fossa ilíaca e flexiona o quadril?", name: "Ilíaco", ans: ["iliaco"], x: "O ilíaco origina-se na fossa ilíaca e insere-se no trocânter menor do fêmur." },
+  { g: "pel", img: "pel_dia", q: "Observe o diafragma pélvico: qual porção do levantador do ânus forma uma alça ao redor da junção anorretal?", name: "Puborretal", ans: ["puborretal"], x: "O puborretal forma uma alça ao redor da junção anorretal, auxiliando na continência fecal." },
+  { g: "inf", img: "inf_cox_q", q: "Observe o membro inferior: qual músculo da coxa é biarticular e realiza extensão do joelho e flexão do quadril?", name: "Reto femoral", ans: ["reto femoral"], x: "O reto femoral atua na extensão do joelho e na flexão do quadril." },
+  { g: "inf", img: "inf_per", q: "Observe a prancha da perna: qual músculo auxilia no desbloqueio do joelho e na rotação medial da tíbia?", name: "Poplíteo", ans: ["popliteo"], x: "O poplíteo auxilia no desbloqueio do joelho e na rotação medial da tíbia." }
+];
+
+/* ==================== FLASH-QUIZ ESCRITA ==================== */
+const FLASH_ITEMS = [
+  { g: "prop", q: "Qual propriedade muscular permite responder a estímulos produzindo potenciais de ação musculares?", name: "Excitabilidade elétrica", ans: ["excitabilidade eletrica", "excitabilidade"], x: "A excitabilidade elétrica gera potenciais de ação musculares em resposta a estímulos." },
+  { g: "prop", q: "Qual tipo de contração ocorre quando a tensão transpõe a resistência e o músculo encurta?", name: "Isotônica concêntrica", ans: ["isotonica concentrica", "concentrica"], x: "Na contração isotônica concêntrica, o músculo encurta e reduz o ângulo articular." },
+  { g: "face", q: "Qual músculo da mastigação realiza protrusão, lateralidade e auxilia na abertura da boca?", name: "Pterigoideo lateral", ans: ["pterigoideo lateral"], x: "O pterigoideo lateral realiza protrusão, lateralidade e auxilia na abertura da mandíbula." },
+  { g: "face", q: "Qual músculo da expressão facial traciona inferiormente a pele da face inferior e do pescoço?", name: "Platisma", ans: ["platisma"], x: "O platisma traciona inferiormente a pele da região inferior da face e do pescoço." },
+  { g: "sup", q: "Qual músculo do compartimento anterior do braço é o principal flexor do cotovelo?", name: "Braquial", ans: ["braquial"], x: "O braquial é o principal flexor do cotovelo." },
+  { g: "sup", q: "Qual sigla resume os quatro músculos do manguito rotador do ombro?", name: "SIRS", ans: ["sirs"], x: "SIRS: Supraespinal, Infraespinal, Redondo menor e Subescapular." },
+  { g: "tor", q: "Qual é o principal músculo da inspiração e separa a cavidade torácica da abdominal?", name: "Diafragma", ans: ["diafragma"], x: "O diafragma é o principal músculo da inspiração." },
+  { g: "tor", q: "Qual músculo superficial do tórax se insere no sulco intertubercular do úmero?", name: "Peitoral maior", ans: ["peitoral maior"], x: "O peitoral maior insere-se no sulco intertubercular do úmero." },
+  { g: "abd", q: "Qual músculo lateral do abdome realiza rotação contralateral do tronco?", name: "Oblíquo externo", ans: ["obliquo externo"], x: "O oblíquo externo realiza rotação contralateral, inclinação lateral e compressão abdominal." },
+  { g: "abd", q: "Qual músculo posterior do abdome se origina na fossa ilíaca e flexiona o quadril?", name: "Ilíaco", ans: ["iliaco"], x: "O ilíaco origina-se na fossa ilíaca e insere-se no trocânter menor do fêmur." },
+  { g: "pel", q: "Qual músculo do diafragma pélvico forma uma alça ao redor da junção anorretal?", name: "Puborretal", ans: ["puborretal"], x: "O puborretal forma uma alça ao redor da junção anorretal, auxiliando na continência fecal." },
+  { g: "inf", q: "Qual músculo da coxa é biarticular e realiza extensão do joelho e flexão do quadril?", name: "Reto femoral", ans: ["reto femoral"], x: "O reto femoral atua na extensão do joelho e na flexão do quadril." },
+  { g: "inf", q: "Qual músculo da perna auxilia no desbloqueio do joelho e na rotação medial da tíbia?", name: "Poplíteo", ans: ["popliteo"], x: "O poplíteo auxilia no desbloqueio do joelho e na rotação medial da tíbia." }
+];
+
+/* ==================== TREINAR (MÚLTIPLA ESCOLHA + FLASH-QUIZ ESCRITA) ==================== */
+let qFilter = "all", qLen = 10, QS = null, qMode = "mc";
+let iqGroup = "all", iqLen = 10, IS = null;
+
+function renderQuizHome() {
+  showView("quiz");
+  QS = null;
+  IS = null;
+  $("v-quiz").innerHTML = `<div class="seg" style="margin-bottom:12px">
+    <button data-qm="mc" class="${qMode === "mc" ? "on" : ""}">📝 Múltipla escolha (${QZ.length})</button>
+    <button data-qm="img" class="${qMode === "img" ? "on" : ""}">✍️ Flash-Quiz Escrita (${FLASH_ITEMS.length})</button>
+  </div>
+  <div id="qsub"></div>`;
+
+  $("v-quiz").querySelectorAll("[data-qm]").forEach(b => {
+    b.onclick = () => {
+      qMode = b.dataset.qm;
+      renderQuizHome();
+    };
+  });
+
+  if (qMode === "img") renderIQHome();
+  else renderMCHome();
+}
+
+function renderMCHome() {
+  const totalInTopic = qFilter === "all" ? QZ.length : QZ.filter(q => q.t === qFilter).length;
+  const count = qLen && qLen < totalInTopic ? qLen : totalInTopic;
+
+  $("qsub").innerHTML = `<div class="card">
+    <span class="card-title">🎯 Treinar – Múltipla Escolha</span>
+    <p class="hint">Questões e alternativas embaralhadas com explicação imediata.</p>
+    <h2 class="sec">Assunto</h2>
+    <div class="chips">
+      <button data-f="all" class="${qFilter === "all" ? "on" : ""}">Todos (${QZ.length})</button>
+      ${TOPICS.map(t => `<button data-f="${t.id}" class="${qFilter === t.id ? "on" : ""}">${t.e} ${esc(t.s)}</button>`).join("")}
+    </div>
+    <h2 class="sec">Quantidade de questões</h2>
+    <div class="seg">
+      ${[[5, "5"], [10, "10"], [20, "20"], [0, "Todas"]].map(([val, lbl]) => `<button data-l="${val}" class="${qLen === val ? "on" : ""}">${lbl}</button>`).join("")}
+    </div>
+    <button class="btn" id="qgo">▶ Começar (${count} questões)</button>
+  </div>`;
+
+  $("qsub").querySelectorAll("[data-f]").forEach(b => {
+    b.onclick = () => {
+      qFilter = b.dataset.f;
+      renderQuizHome();
+    };
+  });
+  $("qsub").querySelectorAll("[data-l]").forEach(b => {
+    b.onclick = () => {
+      qLen = +b.dataset.l;
+      renderQuizHome();
+    };
+  });
+  $("qgo").onclick = startQuiz;
+}
+
+function startQuiz() {
+  let pool = shuffle(qFilter === "all" ? QZ : QZ.filter(q => q.t === qFilter));
+  if (qLen > 0) pool = pool.slice(0, qLen);
+  QS = { deck: pool, i: 0, ok: 0, bad: 0, done: false, miss: [] };
+  renderQ();
+}
+
+function renderQ() {
+  if (QS.i >= QS.deck.length) return renderQResult();
+  QS.done = false;
+  const q = QS.deck[QS.i];
+  const order = shuffle(q.o.map((_, i) => i));
+  const T = TOPICS.find(t => t.id === q.t);
+
+  $("v-quiz").innerHTML = `<div class="qhead">
+    <button class="x" id="qx" aria-label="Sair">✕</button>
+    <div class="prog">
+      <div class="qmeta"><span>Questão ${QS.i + 1} de ${QS.deck.length}</span><span>✅ ${QS.ok} &nbsp;❌ ${QS.bad}</span></div>
+      <div class="bar"><i style="width:${Math.round(QS.i / QS.deck.length * 100)}%"></i></div>
+    </div>
+  </div>
+  <div class="card">
+    <span class="pill">${T.e} ${esc(T.t)}</span>
+    <div class="qtext">${esc(q.q)}</div>
+    <div class="opts" id="opts">
+      ${order.map((oi, k) => `<button class="opt" data-k="${k}"><span class="lt">${"ABCDE"[k]}</span><span>${esc(q.o[oi])}</span></button>`).join("")}
+    </div>
+    <div id="fb"></div>
+  </div>`;
+
+  $("qx").onclick = () => askConfirm("Sair do treino?", "Seu progresso nesta rodada será encerrado.", renderQuizHome);
+
+  $("opts").querySelectorAll(".opt").forEach(btn => {
+    btn.onclick = () => {
+      if (QS.done) return;
+      QS.done = true;
+      const k = +btn.dataset.k;
+      const ok = order[k] === q.a;
+      $("opts").querySelectorAll(".opt").forEach((el, idx) => {
+        el.disabled = true;
+        if (order[idx] === q.a) el.classList.add("ok");
+        else if (idx === k) el.classList.add("bad");
+      });
+      if (ok) QS.ok++;
+      else {
+        QS.bad++;
+        QS.miss.push(q);
+      }
+      const isLast = QS.i + 1 >= QS.deck.length;
+      $("fb").innerHTML = `<div class="fb ${ok ? "ok" : "bad"}">
+        <div class="fbh"><span class="fbi">${ok ? "✓" : "✕"}</span><div><small>${ok ? "Correto!" : "Resposta correta"}</small><b>${esc(q.o[q.a])}</b></div></div>
+        <div class="tip"><small>Explicação</small>${q.x}</div>
+        <button class="btn dark" id="nx">${isLast ? "Ver resultado" : "Próxima →"}</button>
+      </div>`;
+      $("nx").onclick = () => {
+        QS.i++;
+        renderQ();
+      };
+    };
+  });
+}
+
+function renderQResult() {
+  const total = QS.ok + QS.bad;
+  const acc = total ? Math.round(QS.ok / total * 100) : 0;
+  $("v-quiz").innerHTML = `<div class="card result">
+    <div class="trophy">${acc >= 85 ? "🏆" : acc >= 65 ? "🎉" : "💪"}</div>
+    <h2>Resultado da Rodada</h2>
+    <p>${acc >= 70 ? "Excelente domínio do conteúdo!" : "Revise os tópicos abaixo e tente novamente."}</p>
+    <div class="rs">
+      <div style="background:var(--ok-soft);color:var(--ok)"><b>${QS.ok}</b><span>Acertos</span></div>
+      <div style="background:var(--err-soft);color:var(--err)"><b>${QS.bad}</b><span>Erros</span></div>
+      <div style="background:var(--bg)"><b>${acc}%</b><span>Aproveit.</span></div>
+    </div>
+    ${QS.miss.length ? `<h2 class="sec" style="text-align:center">Tópicos para revisar</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">
+        ${[...new Set(QS.miss.map(q => q.t))].map(tid => {
+          const T = TOPICS.find(x => x.id === tid);
+          return `<button class="tag" data-t="${tid}">${T.e} ${esc(T.t)}</button>`;
+        }).join("")}
+      </div>` : ""}
+    <button class="btn" id="again">🔄 Nova rodada</button>
+    <button class="btn soft" id="hm">Voltar aos tópicos</button>
+  </div>`;
+
+  $("v-quiz").querySelectorAll("[data-t]").forEach(b => {
+    b.onclick = () => openTopic(b.dataset.t);
+  });
+  $("again").onclick = startQuiz;
+  $("hm").onclick = renderHome;
+}
+
+/* Flash-Quiz Escrita */
+function renderIQHome() {
+  const cnt = g => g === "all" ? FLASH_ITEMS.length : FLASH_ITEMS.filter(i => i.g === g).length;
+  const total = cnt(iqGroup);
+  const count = iqLen && iqLen < total ? iqLen : total;
+
+  $("qsub").innerHTML = `<div class="card">
+    <span class="card-title">✍️ Flash-Quiz – Identificação &amp; Escrita</span>
+    <p class="hint">Digite o nome do músculo, sigla ou tipo de contração. Aceita respostas com ou sem acento e tolera pequenos erros de digitação.</p>
+    <h2 class="sec">Tópico</h2>
+    <div class="chips">
+      <button data-g="all" class="${iqGroup === "all" ? "on" : ""}">Todos (${cnt("all")})</button>
+      ${TOPICS.map(t => `<button data-g="${t.id}" class="${iqGroup === t.id ? "on" : ""}">${t.e} ${esc(t.s)} (${cnt(t.id)})</button>`).join("")}
+    </div>
+    <h2 class="sec">Quantidade</h2>
+    <div class="seg">
+      ${[[5, "5"], [10, "10"], [0, "Todas"]].map(([val, lbl]) => `<button data-l="${val}" class="${iqLen === val ? "on" : ""}">${lbl}</button>`).join("")}
+    </div>
+    <button class="btn" id="igo">▶ Começar (${count} desafios)</button>
+  </div>`;
+
+  $("qsub").querySelectorAll("[data-g]").forEach(b => {
+    b.onclick = () => {
+      iqGroup = b.dataset.g;
+      renderQuizHome();
+    };
+  });
+  $("qsub").querySelectorAll("[data-l]").forEach(b => {
+    b.onclick = () => {
+      iqLen = +b.dataset.l;
+      renderQuizHome();
+    };
+  });
+  $("igo").onclick = startIQ;
+}
+
+function startIQ() {
+  let pool = shuffle(FLASH_ITEMS.filter(i => iqGroup === "all" || i.g === iqGroup));
+  if (iqLen > 0) pool = pool.slice(0, iqLen);
+  IS = { deck: pool, i: 0, ok: 0, bad: 0, miss: [], done: false };
+  renderIQ();
+}
+
+function renderIQ() {
+  if (IS.i >= IS.deck.length) return renderIQRes();
+  IS.done = false;
+  const it = IS.deck[IS.i];
+  const T = TOPICS.find(x => x.id === it.g);
+
+  $("v-quiz").innerHTML = `<div class="qhead">
+    <button class="x" id="qx" aria-label="Sair">✕</button>
+    <div class="prog">
+      <div class="qmeta"><span>Desafio ${IS.i + 1} de ${IS.deck.length}</span><span>✅ ${IS.ok} &nbsp;❌ ${IS.bad}</span></div>
+      <div class="bar"><i style="width:${Math.round(IS.i / IS.deck.length * 100)}%"></i></div>
+    </div>
+  </div>
+  <div class="card">
+    <span class="pill">${T.e} ${esc(T.s)}</span>
+    ${renderAtlasImage(it.img, T.s)}
+    <div class="qtext" style="margin-top:12px">${esc(it.q)}</div>
+    <input id="iqa" class="in" placeholder="Escreva sua resposta..." autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="warnmsg hidden" id="iqw">Digite uma resposta ou toque em “Não sei”.</div>
+    <div class="hint hidden" id="iqh" style="margin:8px 2px 0"></div>
+    <div class="two">
+      <button class="btn" id="iqc">Verificar</button>
+      <button class="btn soft" id="iqd">💡 Dica</button>
+    </div>
+    <button class="link" id="iqs">Não sei / mostrar resposta</button>
+    <div id="fb"></div>
+  </div>`;
+
+  $("qx").onclick = () => askConfirm("Sair do treino?", "Seu progresso nesta rodada será encerrado.", renderQuizHome);
+  $("iqc").onclick = () => checkIQ(false);
+  $("iqs").onclick = () => checkIQ(true);
+  $("iqd").onclick = () => {
+    const words = it.name.split(" ").length;
+    const letters = it.name.replace(/[^A-Za-zÀ-ÿ]/g, "").length;
+    $("iqh").textContent = `Dica: começa com “${it.name[0].toUpperCase()}”, tem ${letters} letras${words > 1 ? ` e ${words} palavras` : ""}.`;
+    $("iqh").classList.remove("hidden");
+  };
+  $("iqa").onkeydown = e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      checkIQ(false);
+    }
+  };
+  setTimeout(() => {
+    try { $("iqa").focus({ preventScroll: true }); } catch (e) {}
+  }, 60);
+}
+
+function checkIQ(skip) {
+  if (IS.done) return;
+  const typed = $("iqa").value.trim();
+  const it = IS.deck[IS.i];
+  if (!skip && !typed) {
+    $("iqw").classList.remove("hidden");
+    $("iqa").focus();
+    return;
+  }
+  IS.done = true;
+  $("iqw").classList.add("hidden");
+  const n = normA(typed);
+  const ok = !skip && n.length > 0 && distAns(n, [it.name, ...it.ans]) <= 1;
+
+  if (ok) IS.ok++;
+  else {
+    IS.bad++;
+    IS.miss.push(it);
+  }
+
+  $("iqa").disabled = true;
+  $("iqa").classList.add(ok ? "okin" : "badin");
+  $("iqc").classList.add("hidden");
+  $("iqd").classList.add("hidden");
+  $("iqs").classList.add("hidden");
+
+  const isLast = IS.i + 1 >= IS.deck.length;
+  $("fb").innerHTML = `<div class="fb ${ok ? "ok" : "bad"}">
+    <div class="fbh"><span class="fbi">${ok ? "✓" : "✕"}</span><div><small>${ok ? "Correto!" : "Resposta esperada"}</small><b>${esc(it.name)}</b></div></div>
+    ${!ok && !skip ? `<div style="font-size:13px;color:var(--muted);margin:-2px 0 8px">Você digitou: <s style="color:var(--err);font-weight:700">${esc(typed)}</s></div>` : ""}
+    <div class="tip"><small>Explicação</small>${esc(it.x)}</div>
+    <button class="btn dark" id="inx">${isLast ? "Ver resultado" : "Próximo desafio →"}</button>
+  </div>`;
+
+  $("inx").onclick = () => {
+    IS.i++;
+    renderIQ();
+  };
+}
+
+function renderIQRes() {
+  const total = IS.ok + IS.bad;
+  const acc = total ? Math.round(IS.ok / total * 100) : 0;
+  $("v-quiz").innerHTML = `<div class="card result">
+    <div class="trophy">${acc >= 85 ? "🏆" : acc >= 65 ? "🎉" : "💪"}</div>
+    <h2>Resultado do Flash-Quiz</h2>
+    <p>${acc >= 70 ? "Ótima precisão na escrita anatômica!" : "Continue treinando os termos abaixo."}</p>
+    <div class="rs">
+      <div style="background:var(--ok-soft);color:var(--ok)"><b>${IS.ok}</b><span>Acertos</span></div>
+      <div style="background:var(--err-soft);color:var(--err)"><b>${IS.bad}</b><span>Erros</span></div>
+      <div style="background:var(--bg)"><b>${acc}%</b><span>Aproveit.</span></div>
+    </div>
+    ${IS.miss.length ? `<h2 class="sec" style="text-align:center">Itens para rever</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">
+        ${IS.miss.map(m => `<span class="tag" style="background:var(--err-soft);color:var(--err)">${esc(m.name)}</span>`).join("")}
+      </div>` : ""}
+    <button class="btn" id="iag">🔄 Jogar de novo</button>
+    <button class="btn soft" id="ihm">Mudar tópico</button>
+  </div>`;
+
+  $("iag").onclick = startIQ;
+  $("ihm").onclick = renderQuizHome;
+}
+
+/* ==================== INICIALIZAÇÃO ==================== */
+$("chip").textContent = `${MUSCLES.length} músculos`;
+renderHome();
+</script>
+</body>
+</html>
