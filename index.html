@@ -380,6 +380,11 @@ h2.sec:first-child {
   box-shadow: 0 4px 12px rgba(15, 118, 110, 0.22);
 }
 
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .btn:active {
   transform: scale(0.985);
 }
@@ -490,6 +495,30 @@ h2.sec:first-child {
   border-top: 1px solid var(--line);
   font-size: 11.5px;
   color: var(--muted);
+}
+
+.sync-box {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+}
+
+.sync-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sync-status {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 8px;
+  line-height: 1.4;
 }
 
 .anat-card {
@@ -1239,7 +1268,7 @@ table.tb td:first-child {
       <span class="ic">💪</span>
       <span>
         <h1>Sistema Muscular Ilustrado</h1>
-        <p>Anatomia e Fisiologia • 100% Offline</p>
+        <p>Anatomia e Fisiologia • Cache Offline</p>
       </span>
     </button>
     <span class="chip" id="chip">73 músculos</span>
@@ -1353,7 +1382,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     const MUSCLES = [
-      /* TÓPICO 2: FACE E CABEÇA - EXPRESSÃO FACIAL / MÍMICA (17) */
       { t: "face", g: "Expressão Facial (17)", n: "Frontal", f: "Eleva as sobrancelhas e enruga a pele da testa." },
       { t: "face", g: "Expressão Facial (17)", n: "Occipital", f: "Traciona o couro cabeludo posteriormente." },
       { t: "face", g: "Expressão Facial (17)", n: "Orbicular dos olhos", f: "Fecha as pálpebras (piscar e fechamento forçado)." },
@@ -1372,33 +1400,28 @@ document.addEventListener("DOMContentLoaded", function () {
       { t: "face", g: "Expressão Facial (17)", n: "Mentual", f: "Eleva e projeta o lábio inferior e enruga a pele do mento (queixo)." },
       { t: "face", g: "Expressão Facial (17)", n: "Platisma", f: "Traciona inferiormente a pele da região inferior da face e do pescoço e tensiona a pele cervical." },
 
-      /* TÓPICO 2: FACE E CABEÇA - MASTIGAÇÃO (4) */
       { t: "face", g: "Mastigação (4)", n: "Masseter", f: "Eleva a mandíbula com grande força fechando a boca." },
       { t: "face", g: "Mastigação (4)", n: "Temporal", f: "Eleva a mandíbula (fibras anteriores) e retrai a mandíbula (fibras posteriores)." },
       { t: "face", g: "Mastigação (4)", n: "Pterigoideo medial", f: "Eleva a mandíbula e auxilia nos movimentos laterais da mastigação." },
       { t: "face", g: "Mastigação (4)", n: "Pterigoideo lateral", f: "Promove protrusão, lateralidade e auxilia na abertura (depressão) da mandíbula." },
 
-      /* TÓPICO 3: MEMBROS SUPERIORES - ESCÁPULA (5) */
       { t: "sup", g: "Escápula", n: "Trapézio", f: "Eleva (fibras superiores), retrai (fibras médias), deprime (fibras inferiores) e roda superiormente a escápula." },
       { t: "sup", g: "Escápula", n: "Serrátil anterior", f: "Promove protração e rotação superior da escápula, mantendo-a aplicada ao tórax." },
       { t: "sup", g: "Escápula", n: "Romboide maior", f: "Retrai, eleva e realiza rotação inferior da escápula." },
       { t: "sup", g: "Escápula", n: "Romboide menor", f: "Retrai, eleva e realiza rotação inferior da escápula." },
       { t: "sup", g: "Escápula", n: "Levantador da escápula", f: "Eleva a escápula e auxilia na rotação inferior da cavidade glenoidal." },
 
-      /* TÓPICO 3: MEMBROS SUPERIORES - OMBRO / MANGUITO ROTADOR SIRS (4) */
       { t: "sup", g: "Ombro – Manguito Rotador (SIRS)", n: "Supraespinal", f: "Inicia a abdução do braço (primeiros 15 graus) e estabiliza a cabeça do úmero." },
       { t: "sup", g: "Ombro – Manguito Rotador (SIRS)", n: "Infraespinal", f: "Realiza rotação lateral (externa) do braço e estabiliza o ombro." },
       { t: "sup", g: "Ombro – Manguito Rotador (SIRS)", n: "Redondo menor", f: "Realiza rotação lateral (externa) e adução do braço e estabiliza o ombro." },
       { t: "sup", g: "Ombro – Manguito Rotador (SIRS)", n: "Subescapular", f: "Realiza rotação medial (interna) e adução do braço e estabiliza o ombro." },
 
-      /* TÓPICO 3: MEMBROS SUPERIORES - BRAÇO ANTERIOR E POSTERIOR (5) */
       { t: "sup", g: "Braço – Anterior", n: "Bíceps braquial", f: "Supina o antebraço e flexiona o cotovelo e o ombro." },
       { t: "sup", g: "Braço – Anterior", n: "Braquial", f: "Principal flexor do cotovelo em todas as posições do antebraço." },
       { t: "sup", g: "Braço – Anterior", n: "Coracobraquial", f: "Flexiona e aduz o braço na articulação do ombro." },
       { t: "sup", g: "Braço – Posterior", n: "Tríceps braquial", f: "Principal extensor do cotovelo; cabeça longa auxilia na extensão e adução do ombro." },
       { t: "sup", g: "Braço – Posterior", n: "Ancôneo", f: "Auxilia o tríceps na extensão do cotovelo e estabiliza a articulação." },
 
-      /* TÓPICO 3: MEMBROS SUPERIORES - ANTEBRAÇO ANTERIOR (8) */
       { t: "sup", g: "Antebraço – Anterior", n: "Pronador redondo", f: "Prona o antebraço e auxilia na flexão do cotovelo." },
       { t: "sup", g: "Antebraço – Anterior", n: "Flexor radial do carpo", f: "Flexiona e abduz (desvio radial) a mão no punho." },
       { t: "sup", g: "Antebraço – Anterior", n: "Palmar longo", f: "Flexiona a mão no punho e tensiona a aponeurose palmar." },
@@ -1408,7 +1431,6 @@ document.addEventListener("DOMContentLoaded", function () {
       { t: "sup", g: "Antebraço – Anterior", n: "Flexor longo do polegar", f: "Flexiona as falanges do polegar." },
       { t: "sup", g: "Antebraço – Anterior", n: "Pronador quadrado", f: "Principal pronador do antebraço." },
 
-      /* TÓPICO 3: MEMBROS SUPERIORES - ANTEBRAÇO POSTERIOR (11) */
       { t: "sup", g: "Antebraço – Posterior", n: "Braquiorradial", f: "Flexiona o cotovelo, especialmente com o antebraço em posição neutra (semipronada)." },
       { t: "sup", g: "Antebraço – Posterior", n: "Extensor radial longo do carpo", f: "Estende e abduz (desvio radial) a mão no punho." },
       { t: "sup", g: "Antebraço – Posterior", n: "Extensor radial curto do carpo", f: "Estende e abduz (desvio radial) a mão no punho." },
@@ -1421,7 +1443,6 @@ document.addEventListener("DOMContentLoaded", function () {
       { t: "sup", g: "Antebraço – Posterior", n: "Extensor longo do polegar", f: "Estende a falange distal do polegar." },
       { t: "sup", g: "Antebraço – Posterior", n: "Extensor do indicador", f: "Estende o dedo indicador de forma independente." },
 
-      /* TÓPICO 4: TÓRAX - DIAFRAGMA, PAREDE TORÁCICA (6) E SUPERFICIAIS (4) */
       { t: "tor", g: "Diafragma", n: "Diafragma", loc: "Abertura inferior do tórax (separa cavidade torácica e abdominal)", f: "Principal músculo da inspiração; contrai-se e rebaixa a cúpula aumentando o volume torácico." },
       { t: "tor", g: "Parede Torácica", n: "Intercostais externos", loc: "Espaços intercostais (camada superficial, fibras ínfero-mediais)", f: "Elevam as costelas durante a inspiração." },
       { t: "tor", g: "Parede Torácica", n: "Intercostais internos", loc: "Espaços intercostais (camada média, fibras ínfero-laterais)", f: "Abaixam as costelas na expiração forçada (parte interóssea)." },
@@ -1434,7 +1455,6 @@ document.addEventListener("DOMContentLoaded", function () {
       { t: "tor", g: "Superficiais do Tórax", n: "Serrátil anterior", o: "Faces externas das 8-9 primeiras costelas", i: "Borda medial da escápula", f: "Protrai e roda superiormente a escápula." },
       { t: "tor", g: "Superficiais do Tórax", n: "Subclávio", o: "1ª costela e sua cartilagem costal", i: "Face inferior da clavícula", f: "Ancora e deprime a clavícula." },
 
-      /* TÓPICO 5: ABDOME - ANTERIORES (2), LATERAIS (3) E POSTERIORES (3) */
       { t: "abd", g: "Anteriores do Abdome", n: "Reto do abdome", o: "Sínfise púbica e crista púbica", i: "Processo xifoide e cartilagens costais da 5ª a 7ª costelas", f: "Flexiona o tronco (coluna lombar) e comprime as vísceras abdominais." },
       { t: "abd", g: "Anteriores do Abdome", n: "Piramidal", o: "Face anterior do púbis", i: "Linha alba", f: "Tensiona a linha alba." },
       { t: "abd", g: "Laterais do Abdome", n: "Oblíquo externo", o: "Faces externas das 5ª a 12ª costelas", i: "Linha alba, tubérculo púbico e metade anterior da crista ilíaca", f: "Comprime o abdome, flexiona o tronco e realiza rotação contralateral." },
@@ -1444,7 +1464,6 @@ document.addEventListener("DOMContentLoaded", function () {
       { t: "abd", g: "Posteriores do Abdome", n: "Psoas maior", o: "Corpos e processos transversos de T12 a L5", i: "Trocânter menor do fêmur", f: "Flexiona a coxa no quadril e flexiona o tronco." },
       { t: "abd", g: "Posteriores do Abdome", n: "Ilíaco", o: "Fossa ilíaca e asa do sacro", i: "Trocânter menor do fêmur (junto ao psoas maior)", f: "Flexiona a coxa na articulação do quadril." },
 
-      /* TÓPICO 6: ASSOALHO PÉLVICO - DIAFRAGMA PÉLVICO, PERÍNEO E CONTINÊNCIA ANAL */
       { t: "pel", g: "Diafragma Pélvico", n: "Levantador do ânus – Puborretal", f: "Forma uma alça ao redor da junção anorretal, mantendo o ângulo anorretal e a continência fecal." },
       { t: "pel", g: "Diafragma Pélvico", n: "Levantador do ânus – Pubococcígeo", f: "Sustenta as vísceras pélvicas e comprime a vagina, uretra e canal anal." },
       { t: "pel", g: "Diafragma Pélvico", n: "Levantador do ânus – Iliococcígeo", f: "Sustenta o assoalho pélvico e traciona o cóccix anteriormente." },
@@ -1457,7 +1476,6 @@ document.addEventListener("DOMContentLoaded", function () {
       { t: "pel", g: "Continência Anal", n: "Esfíncter externo do ânus", f: "Músculo estriado esquelético (voluntário) que mantém o canal anal fechado para continência fecal." },
       { t: "pel", g: "Continência Anal", n: "Esfíncter interno do ânus", f: "Camada espessada de músculo liso (involuntário) ao redor do canal anal superior." },
 
-      /* TÓPICO 7: MEMBROS INFERIORES - QUADRIL E GLÚTEA (10) */
       { t: "inf", g: "Quadril e Glútea (10)", n: "Piriforme", o: "Face anterior do sacro", i: "Borda superior do trocânter maior do fêmur", f: "Roda lateralmente e abduz a coxa (quando o quadril está flexionado)." },
       { t: "inf", g: "Quadril e Glútea (10)", n: "Gêmeo superior", o: "Espinha isquiática", i: "Face medial do trocânter maior do fêmur (junto ao obturador interno)", f: "Roda lateralmente e abduz a coxa flexionada." },
       { t: "inf", g: "Quadril e Glútea (10)", n: "Obturador interno", o: "Faces pélvicas da membrana obturatória e ossos circundantes", i: "Face medial do trocânter maior do fêmur", f: "Roda lateralmente e abduz a coxa flexionada." },
@@ -1469,27 +1487,25 @@ document.addEventListener("DOMContentLoaded", function () {
       { t: "inf", g: "Quadril e Glútea (10)", n: "Glúteo mínimo", o: "Face externa do ílio entre as linhas glúteas anterior e inferior", i: "Face anterior do trocânter maior do fêmur", f: "Abduz e roda medialmente a coxa; estabiliza a pelve." },
       { t: "inf", g: "Quadril e Glútea (10)", n: "Tensor da fáscia lata", o: "Crista ilíaca e espinha ilíaca ântero-superior", i: "Trato iliotibial (côndilo lateral da tíbia)", f: "Tensiona o trato iliotibial, abduz, roda medialmente e flexiona a coxa." },
 
-      /* TÓPICO 7: MEMBROS INFERIORES - COXA ANTERIOR: QUADRÍCEPS E SARTÓRIO (5) */
       { t: "inf", g: "Coxa Anterior – Quadríceps e Sartório (5)", n: "Reto femoral", o: "Espinha ilíaca ântero-inferior e sulco supra-acetabular", i: "Base da patela e, via ligamento da patela, tuberosidade da tíbia", f: "Estende a perna no joelho e flexiona a coxa no quadril (músculo biarticular)." },
       { t: "inf", g: "Coxa Anterior – Quadríceps e Sartório (5)", n: "Vasto lateral", o: "Trocanter maior, lábio lateral da linha áspera e septo intermuscular lateral", i: "Base da patela e tuberosidade da tíbia", f: "Estende a perna na articulação do joelho." },
       { t: "inf", g: "Coxa Anterior – Quadríceps e Sartório (5)", n: "Vasto medial", o: "Linha intertrocantérica e lábio medial da linha áspera", i: "Base da patela e tuberosidade da tíbia", f: "Estende a perna na articulação do joelho (fibras distais estabilizam a patela)." },
       { t: "inf", g: "Coxa Anterior – Quadríceps e Sartório (5)", n: "Vasto intermédio", o: "Faces anterior e lateral do corpo do fêmur", i: "Base da patela e tuberosidade da tíbia", f: "Estende a perna na articulação do joelho." },
       { t: "inf", g: "Coxa Anterior – Quadríceps e Sartório (5)", n: "Sartório", o: "Espinha ilíaca ântero-superior", i: "Face medial superior do corpo da tíbia (pata de ganso)", f: "Flexiona, abduz e roda lateralmente a coxa; flexiona a perna no joelho." },
 
-      /* TÓPICO 7: MEMBROS INFERIORES - COXA POSTERIOR (4) */
       { t: "inf", g: "Coxa – Posteriores (4)", n: "Bíceps femoral – Cabeça longa", o: "Parte ínfero-medial da tuberosidade isquiática", i: "Cabeça da fíbula", f: "Estende a coxa, flexiona a perna e roda lateralmente o joelho flexionado." },
       { t: "inf", g: "Coxa – Posteriores (4)", n: "Bíceps femoral – Cabeça curta", o: "Linha áspera e linha supracondilar lateral do fêmur", i: "Cabeça da fíbula (junto à cabeça longa)", f: "Flexiona a perna no joelho e roda lateralmente." },
       { t: "inf", g: "Coxa – Posteriores (4)", n: "Semitendíneo", o: "Parte ínfero-medial da tuberosidade isquiática", i: "Face medial superior da tíbia (pata de ganso)", f: "Estende a coxa, flexiona a perna e roda medialmente o joelho flexionado." },
       { t: "inf", g: "Coxa – Posteriores (4)", n: "Semimembranáceo", o: "Parte súpero-lateral da tuberosidade isquiática", i: "Côndilo medial da tíbia (e ligamento poplíteo oblíquo)", f: "Estende a coxa, flexiona a perna e roda medialmente." },
 
-      /* TÓPICO 7: MEMBROS INFERIORES - PERNA (4) */
       { t: "inf", g: "Perna (4)", n: "Poplíteo", o: "Face lateral do côndilo lateral do fêmur e menisco lateral", i: "Face posterior da tíbia acima da linha do sóleo", f: "Desbloqueia o joelho estendido e roda medialmente a tíbia (ou lateralmente o fêmur)." },
       { t: "inf", g: "Perna (4)", n: "Tibial posterior", o: "Membrana interóssea e faces posteriores adjacentes da tíbia e fíbula", i: "Tuberosidade do navicular, cuneiformes, cuboide e bases do 2º ao 4º metatarsos", f: "Realiza inversão do pé e flexão plantar do tornozelo." },
       { t: "inf", g: "Perna (4)", n: "Flexor longo dos dedos", o: "Parte medial da face posterior da tíbia abaixo da linha do sóleo", i: "Bases das falanges distais dos 4 dedos laterais (2º ao 5º)", f: "Flexiona os 4 dedos laterais e auxilia na flexão plantar do tornozelo." },
       { t: "inf", g: "Perna (4)", n: "Flexor longo do hálux", o: "Dois terços inferiores da face posterior da fíbula e membrana interóssea", i: "Base da falange distal do hálux", f: "Flexiona o hálux e auxilia na flexão plantar do tornozelo." }
     ];
 
-    /* ==================== BANCO DE IMAGENS RASTER PRÉ-CARREGADO 100% OFFLINE ==================== */
+    /* ==================== IMAGENS: API WIKIMEDIA COMMONS + CACHE OFFLINE + FALLBACK ==================== */
+    const STORAGE_KEY = "smi_wikimedia_offline_v1";
     const OFFLINE_IMAGE_BANK = {};
     const SCENE_KEYS = [
       "prop_exc", "prop_con", "prop_ext", "prop_ela",
@@ -1501,6 +1517,152 @@ document.addEventListener("DOMContentLoaded", function () {
       "pel_all", "pel_dia", "pel_sup", "pel_pro",
       "inf_qua", "inf_cox_q", "inf_cox_p", "inf_per"
     ];
+
+    const WIKIMEDIA_QUERIES = {
+      prop_exc: "muscle contraction anatomy diagram",
+      prop_con: "skeletal muscle fiber anatomy",
+      prop_ext: "sarcomere muscle contraction",
+      prop_ela: "muscle tissue anatomy",
+      contr_iso: "isometric muscle contraction",
+      contr_conc: "concentric muscle contraction",
+      contr_exc: "eccentric muscle contraction",
+      face_all: "muscles of facial expression anatomy",
+      face_mim: "facial muscles anatomy",
+      face_mas: "muscles of mastication masseter temporalis",
+      sup_omb: "rotator cuff anatomy",
+      sup_esc: "scapula muscles anatomy",
+      sup_bra: "biceps brachii triceps anatomy",
+      sup_ant_a: "forearm flexor muscles anatomy",
+      sup_ant_p: "forearm extensor muscles anatomy",
+      tor_all: "thoracic wall muscles anatomy",
+      tor_dia: "diaphragm muscle anatomy",
+      tor_par: "intercostal muscles anatomy",
+      tor_sup: "pectoralis major serratus anterior anatomy",
+      abd_all: "abdominal muscles anatomy",
+      abd_ant: "rectus abdominis anatomy",
+      abd_lat: "oblique muscles abdomen anatomy",
+      abd_pos: "iliopsoas quadratus lumborum anatomy",
+      pel_all: "pelvic floor muscles anatomy",
+      pel_dia: "levator ani pelvic diaphragm",
+      pel_sup: "perineum muscles anatomy",
+      pel_pro: "anal sphincter pelvic floor",
+      inf_qua: "gluteal muscles hip anatomy",
+      inf_cox_q: "quadriceps femoris sartorius anatomy",
+      inf_cox_p: "hamstring muscles anatomy",
+      inf_per: "leg muscles popliteus tibialis posterior"
+    };
+
+    let cachedMediaMap = {};
+    let syncState = { running: false, done: 0, total: SCENE_KEYS.length, saved: 0, msg: "" };
+
+    function loadMediaCache() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === "object") cachedMediaMap = parsed;
+        }
+      } catch (e) {
+        cachedMediaMap = {};
+      }
+      syncState.saved = Object.keys(cachedMediaMap).length;
+    }
+
+    function saveMediaCache() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cachedMediaMap));
+      } catch (e) {
+        syncState.msg = "Limite de armazenamento local atingido; algumas imagens não foram salvas.";
+      }
+      syncState.saved = Object.keys(cachedMediaMap).length;
+    }
+
+    function clearMediaCache() {
+      cachedMediaMap = {};
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {}
+      syncState.saved = 0;
+      syncState.done = 0;
+      syncState.msg = "Cache offline de imagens limpo.";
+    }
+
+    function blobToDataURL(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(typeof reader.result === "string" ? reader.result : "");
+        reader.onerror = () => reject(new Error("Falha ao converter imagem para base64"));
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    async function fetchWikimediaSceneImage(sceneKey) {
+      const q = WIKIMEDIA_QUERIES[sceneKey] || "human muscle anatomy";
+      const apiUrl =
+        "https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*" +
+        "&generator=search&gsrnamespace=6&gsrlimit=4&gsrsearch=" +
+        encodeURIComponent(q + " filetype:bitmap") +
+        "&prop=imageinfo&iiprop=url|mime&iiurlwidth=640";
+
+      const res = await fetch(apiUrl);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      const pages = data && data.query && data.query.pages ? Object.values(data.query.pages) : [];
+
+      for (let i = 0; i < pages.length; i++) {
+        const info = pages[i] && pages[i].imageinfo && pages[i].imageinfo[0];
+        const imgUrl = (info && (info.thumburl || info.url)) || "";
+        const mime = (info && info.mime) || "";
+        if (!imgUrl || (mime && mime.indexOf("svg") !== -1 && !info.thumburl)) continue;
+
+        try {
+          const imgRes = await fetch(imgUrl);
+          if (!imgRes.ok) continue;
+          const blob = await imgRes.blob();
+          if (!blob || blob.size === 0 || blob.size > 900000) continue;
+          const dataUrl = await blobToDataURL(blob);
+          if (dataUrl && dataUrl.indexOf("data:image/") === 0) {
+            return { dataUrl, title: pages[i].title || q };
+          }
+        } catch (e) {
+          // tenta próximo resultado da busca
+        }
+      }
+      throw new Error("Sem imagem compatível");
+    }
+
+    async function syncAllWikimediaImages(onProgress) {
+      if (syncState.running) return;
+      syncState.running = true;
+      syncState.done = 0;
+      syncState.total = SCENE_KEYS.length;
+      syncState.msg = "Consultando API pública do Wikimedia Commons...";
+      if (onProgress) onProgress();
+
+      let okCount = 0;
+      for (let i = 0; i < SCENE_KEYS.length; i++) {
+        const key = SCENE_KEYS[i];
+        try {
+          const found = await fetchWikimediaSceneImage(key);
+          cachedMediaMap[key] = {
+            src: found.dataUrl,
+            label: found.title.replace(/^File:/i, ""),
+            updatedAt: new Date().toISOString().slice(0, 10)
+          };
+          saveMediaCache();
+          okCount++;
+        } catch (e) {
+          // mantém fallback para cenas sem retorno válido
+        }
+        syncState.done = i + 1;
+        syncState.msg = "Sincronizando " + syncState.done + "/" + syncState.total + " (" + okCount + " baixadas nesta sessão)...";
+        if (onProgress) onProgress();
+      }
+
+      syncState.running = false;
+      syncState.msg = "Concluído: " + syncState.saved + "/" + syncState.total + " pranchas salvas no cache offline.";
+      if (onProgress) onProgress();
+    }
 
     function drawRoundBox(ctx, x, y, w, h, r) {
       ctx.beginPath();
@@ -1526,317 +1688,38 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.fillStyle = bg;
         ctx.fillRect(0, 0, W, H);
 
-        ctx.strokeStyle = "rgba(15, 118, 110, 0.08)";
-        ctx.lineWidth = 1;
-        for (let x = 16; x < W; x += 24) {
-          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-        }
-        for (let y = 16; y < H; y += 24) {
-          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-        }
-
         ctx.strokeStyle = "#cbd5e1";
         ctx.lineWidth = 2;
         ctx.strokeRect(8, 8, W - 16, H - 16);
 
-        const pill = (x, y, txt, fg, bgCol) => {
-          ctx.font = "bold 12px system-ui, sans-serif";
-          const tw = ctx.measureText(txt).width;
-          ctx.fillStyle = bgCol;
-          drawRoundBox(ctx, x, y, tw + 20, 24, 12);
-          ctx.fill();
-          ctx.fillStyle = fg;
-          ctx.fillText(txt, x + 10, y + 16);
-        };
-
-        const pointer = (x1, y1, x2, y2, title, sub, align) => {
-          ctx.strokeStyle = "#0f172a";
-          ctx.lineWidth = 1.8;
-          ctx.beginPath();
-          ctx.moveTo(x1, y1);
-          ctx.lineTo(x2, y2);
-          ctx.stroke();
-
-          ctx.fillStyle = "#e11d48";
-          ctx.beginPath();
-          ctx.arc(x1, y1, 4.5, 0, Math.PI * 2);
-          ctx.fill();
-
-          if (blindMode) return;
-          ctx.font = "bold 12px system-ui, sans-serif";
-          ctx.fillStyle = "#0f172a";
-          ctx.textAlign = align || "left";
-          const tx = align === "right" ? x2 - 7 : x2 + 7;
-          ctx.fillText(title, tx, y2 + 4);
-          if (sub) {
-            ctx.font = "10.5px system-ui, sans-serif";
-            ctx.fillStyle = "#475569";
-            ctx.fillText(sub, tx, y2 + 17);
-          }
-          ctx.textAlign = "left";
-        };
-
-        const muscle = (cx, cy, rx, ry, rot, c1, c2) => {
-          ctx.save();
-          ctx.translate(cx, cy);
-          ctx.rotate(rot || 0);
-          ctx.fillStyle = "#f1f5f9";
-          ctx.strokeStyle = "#94a3b8";
-          ctx.lineWidth = 1.5;
-          drawRoundBox(ctx, -rx - 24, -9, rx * 2 + 48, 18, 8);
-          ctx.fill();
-          ctx.stroke();
-
-          const g = ctx.createLinearGradient(0, -ry, 0, ry);
-          g.addColorStop(0, c1 || "#e11d48");
-          g.addColorStop(0.5, "#fb7185");
-          g.addColorStop(1, c2 || "#9f1239");
-          ctx.fillStyle = g;
-          ctx.beginPath();
-          ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.strokeStyle = "#881337";
-          ctx.lineWidth = 2;
-          ctx.stroke();
-
-          ctx.strokeStyle = "rgba(255,255,255,0.38)";
-          ctx.lineWidth = 1.2;
-          for (let i = -ry + 7; i <= ry - 7; i += 7) {
-            ctx.beginPath();
-            ctx.moveTo(-rx * 0.72, i * 0.5);
-            ctx.quadraticCurveTo(0, i, rx * 0.72, i * 0.5);
-            ctx.stroke();
-          }
-          ctx.restore();
-        };
-
-        const bone = (x1, y1, x2, y2, w) => {
-          ctx.save();
-          ctx.strokeStyle = "#cbd5e1";
-          ctx.lineWidth = (w || 15) + 3;
-          ctx.lineCap = "round";
-          ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
-          ctx.strokeStyle = "#fffbeb";
-          ctx.lineWidth = w || 15;
-          ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
-          ctx.restore();
-        };
-
         ctx.fillStyle = "#0f172a";
         ctx.font = "bold 15px system-ui, sans-serif";
+        ctx.fillText(blindMode ? "IDENTIFICAÇÃO ANATÔMICA" : "PRANCHA DE REFERÊNCIA – " + sceneKey.toUpperCase(), 20, 32);
 
-        if (sceneKey === "contr_iso" || sceneKey === "contr_conc" || sceneKey === "contr_exc") {
-          const mode = sceneKey.split("_")[1];
-          const map = {
-            iso: ["CONTRAÇÃO ISOMÉTRICA", "Comprimento constante • Postura fixa", 64, 25, 0.2],
-            conc: ["CONTRAÇÃO ISOTÔNICA CONCÊNTRICA", "Músculo encurta • Reduz ângulo articular", 46, 33, -0.45],
-            exc: ["CONTRAÇÃO ISOTÔNICA EXCÊNTRICA", "Comprimento aumenta sob tensão", 84, 20, 0.65]
-          }[mode];
+        ctx.fillStyle = "#475569";
+        ctx.font = "12.5px system-ui, sans-serif";
+        ctx.fillText(
+          blindMode
+            ? "Modo sem rótulos • Sincronize na tela inicial para usar fotos do Wikimedia Commons."
+            : "Fallback offline ativo • Toque em 'Sincronizar imagens' na tela inicial para baixar via API.",
+          20,
+          54
+        );
 
-          ctx.fillText(blindMode ? "IDENTIFIQUE O TIPO DE CONTRAÇÃO" : map[0], 20, 30);
-          pill(20, 38, blindMode ? "Observe o comprimento muscular e a articulação" : map[1], "#0f766e", "#ccfbf1");
+        const g = ctx.createLinearGradient(160, 120, 480, 220);
+        g.addColorStop(0, "#e11d48");
+        g.addColorStop(0.5, "#fb7185");
+        g.addColorStop(1, "#9f1239");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.ellipse(320, 175, 130, 40, 0, 0, Math.PI * 2);
+        ctx.fill();
 
-          bone(180, 92, 180, 214, 18);
-          const ang = map[4];
-          const fx = 180 + Math.cos(ang) * 122;
-          const fy = 214 + Math.sin(ang) * 122;
-          bone(180, 214, fx, fy, 15);
-          ctx.fillStyle = "#94a3b8";
-          ctx.beginPath(); ctx.arc(180, 214, 12, 0, Math.PI * 2); ctx.fill();
-
-          const mx = (180 + (180 + Math.cos(ang) * 58)) / 2 + 22;
-          const my = (106 + (214 + Math.sin(ang) * 58)) / 2;
-          muscle(mx, my, map[2] * 0.75, map[3] * 0.72, Math.PI / 2 - 0.2);
-
-          ctx.fillStyle = mode === "conc" ? "#059669" : mode === "exc" ? "#d97706" : "#2563eb";
-          ctx.beginPath(); ctx.arc(fx, fy, 16, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = "#fff";
-          ctx.font = "bold 9.5px system-ui, sans-serif";
-          ctx.textAlign = "center";
-          ctx.fillText("CARGA", fx, fy + 3);
-          ctx.textAlign = "left";
-
-          ctx.fillStyle = "#ffffff";
-          drawRoundBox(ctx, 365, 82, 250, 205, 14);
-          ctx.fill();
-          ctx.strokeStyle = "#cbd5e1";
-          ctx.stroke();
-
-          const rows = [
-            ["Comprimento:", mode === "iso" ? "Constante (sem mudança)" : mode === "conc" ? "Encurta (diminui)" : "Aumenta na contração"],
-            ["Ângulo articular:", mode === "iso" ? "Permanece fixo" : mode === "conc" ? "Reduz na articulação" : "Aumenta controlado"],
-            ["Gasto energético:", "Sim (consumo de ATP)"]
-          ];
-          rows.forEach((r, idx) => {
-            const yy = 112 + idx * 60;
-            ctx.font = "bold 11px system-ui, sans-serif";
-            ctx.fillStyle = "#64748b";
-            ctx.fillText(r[0], 380, yy);
-            ctx.font = "bold 12.5px system-ui, sans-serif";
-            ctx.fillStyle = "#0f172a";
-            ctx.fillText(blindMode && idx < 2 ? "???" : r[1], 380, yy + 17);
-          });
-
-        } else if (sceneKey.indexOf("prop_") === 0) {
-          const p = sceneKey.split("_")[1];
-          const info = {
-            exc: ["1. EXCITABILIDADE ELÉTRICA", "Potenciais de ação musculares", "#2563eb", 124, 32],
-            con: ["2. CONTRATILIDADE", "Tração vigorosa nas inserções", "#e11d48", 88, 44],
-            ext: ["3. EXTENSIBILIDADE", "Alongamento limitado pelo conjuntivo", "#d97706", 162, 23],
-            ela: ["4. ELASTICIDADE", "Retorno à forma original", "#059669", 124, 32]
-          }[p];
-
-          ctx.fillText(blindMode ? "IDENTIFIQUE A PROPRIEDADE MUSCULAR" : info[0], 20, 30);
-          pill(20, 38, blindMode ? "Observe a resposta da fibra muscular" : info[1], info[2], "#ffffff");
-
-          muscle(320, 175, info[3], info[4], 0);
-          if (p === "exc") {
-            ctx.strokeStyle = "#eab308";
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.moveTo(165, 92); ctx.lineTo(198, 126); ctx.lineTo(182, 132); ctx.lineTo(216, 166);
-            ctx.stroke();
-            pointer(216, 166, 132, 255, "Potencial de ação", "Estímulo elétrico", "left");
-          } else if (p === "con") {
-            pointer(205, 175, 115, 258, "Origem tracionada", "Gera tensão", "left");
-            pointer(435, 175, 525, 258, "Inserção tracionada", "Encurtamento", "right");
-          } else if (p === "ext") {
-            pointer(145, 175, 92, 258, "Tecido conjuntivo", "Limita sem lesão", "left");
-            pointer(495, 175, 548, 258, "Extensão máxima", "Fibra alongada", "right");
-          } else {
-            pointer(320, 142, 420, 98, "Retorno elástico", "Forma original", "left");
-          }
-
-        } else if (sceneKey.indexOf("face_") === 0) {
-          ctx.fillText(blindMode ? "ANATOMIA DA FACE E CABEÇA" : "FACE E CABEÇA: MÍMICA (17) E MASTIGAÇÃO (4)", 20, 30);
-          pill(20, 38, "Expressão facial e articulação temporomandibular", "#be185d", "#fce7f3");
-
-          ctx.fillStyle = "#fde68a";
-          ctx.strokeStyle = "#b45309";
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.ellipse(315, 175, 82, 102, 0, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
-
-          muscle(315, 94, 52, 12, 0, "#e11d48", "#9f1239");
-          ctx.strokeStyle = "#e11d48";
-          ctx.lineWidth = 6;
-          ctx.beginPath(); ctx.ellipse(284, 144, 18, 11, 0, 0, Math.PI * 2); ctx.stroke();
-          ctx.beginPath(); ctx.ellipse(346, 144, 18, 11, 0, 0, Math.PI * 2); ctx.stroke();
-
-          muscle(242, 136, 15, 26, -0.2, "#7c3aed", "#5b21b6");
-          muscle(255, 204, 14, 24, 0.15, "#7c3aed", "#5b21b6");
-          muscle(358, 182, 24, 7.5, -0.55);
-
-          ctx.strokeStyle = "#e11d48";
-          ctx.lineWidth = 7;
-          ctx.beginPath(); ctx.ellipse(315, 218, 26, 12, 0, 0, Math.PI * 2); ctx.stroke();
-          muscle(315, 280, 48, 14, 0, "#fb7185", "#be123c");
-
-          pointer(285, 92, 182, 88, "Frontal & Corrugador", "Sobrancelhas", "right");
-          pointer(265, 144, 182, 144, "Orbicular dos olhos", "Fecha pálpebras", "right");
-          pointer(248, 204, 182, 204, "Masseter & Temporal", "Mastigação", "right");
-          pointer(368, 180, 442, 132, "Zigomáticos & Risório", "Sorriso", "left");
-          pointer(342, 218, 442, 198, "Orbicular boca & Bucinador", "Lábios/bochecha", "left");
-          pointer(360, 280, 442, 264, "Platisma", "Face inf. e pescoço", "left");
-
-        } else if (sceneKey.indexOf("sup_") === 0) {
-          ctx.fillText(blindMode ? "ANATOMIA DO MEMBRO SUPERIOR" : "MEMBROS SUPERIORES: SIRS, ESCÁPULA, BRAÇO E ANTEBRAÇO", 20, 30);
-          pill(20, 38, "Manguito rotador (SIRS), flexores e extensores", "#1d4ed8", "#dbeafe");
-
-          bone(205, 92, 290, 104, 12);
-          bone(294, 110, 294, 188, 16);
-          bone(294, 188, 278, 280, 11);
-          bone(294, 188, 308, 280, 11);
-
-          muscle(256, 104, 28, 12, -0.2, "#7c3aed", "#5b21b6");
-          muscle(280, 150, 13, 31, 0.05);
-          muscle(310, 152, 12, 29, -0.05, "#be123c", "#881337");
-          muscle(282, 232, 11, 31, 0.1);
-          muscle(306, 232, 11, 31, -0.1, "#2563eb", "#1e40af");
-
-          pointer(238, 102, 175, 88, "Manguito Rotador (SIRS)", "Supra/Infra/Red.menor/Subesc.", "right");
-          pointer(266, 150, 175, 154, "Braço Anterior (3)", "Bíceps, Braquial, Coracobraquial", "right");
-          pointer(270, 232, 175, 232, "Antebraço Anterior (8)", "Pronadores e flexores", "right");
-          pointer(322, 150, 395, 136, "Braço Posterior (2)", "Tríceps braquial e Ancôneo", "left");
-          pointer(318, 232, 395, 220, "Antebraço Posterior (11)", "Braquiorradial, Supinador, Ext.", "left");
-
-        } else if (sceneKey.indexOf("tor_") === 0) {
-          ctx.fillText(blindMode ? "ANATOMIA DO TÓRAX" : "TÓRAX: PAREDE TORÁCICA, SUPERFICIAIS E DIAFRAGMA", 20, 30);
-          pill(20, 38, "Mecânica respiratória e cintura escapular", "#0f766e", "#ccfbf1");
-
-          ctx.strokeStyle = "#cbd5e1";
-          ctx.lineWidth = 6.5;
-          for (let r = 0; r < 5; r++) {
-            ctx.beginPath();
-            ctx.ellipse(315, 118 + r * 22, 84 + r * 4, 13, 0, Math.PI, Math.PI * 2);
-            ctx.stroke();
-          }
-          muscle(272, 126, 42, 20, -0.2);
-          muscle(358, 126, 42, 20, 0.2);
-
-          ctx.strokeStyle = "#e11d48";
-          ctx.lineWidth = 11;
-          ctx.beginPath();
-          ctx.arc(315, 258, 96, Math.PI * 1.12, Math.PI * 1.88);
-          ctx.stroke();
-
-          pointer(244, 122, 172, 102, "Superficiais (4)", "Peitorais, Serrátil, Subclávio", "right");
-          pointer(232, 178, 172, 180, "Parede Torácica (6)", "Intercostais, Subcostais...", "right");
-          pointer(366, 178, 442, 170, "Diafragma", "Principal músculo inspiração", "left");
-
-        } else if (sceneKey.indexOf("abd_") === 0) {
-          ctx.fillText(blindMode ? "ANATOMIA DO ABDOME" : "ABDOME: ANTERIORES (2), LATERAIS (3) E POSTERIORES (3)", 20, 30);
-          pill(20, 38, "Estabilização do tronco e pressão intra-abdominal", "#b45309", "#fef3c7");
-
-          for (let row = 0; row < 3; row++) {
-            muscle(294, 118 + row * 46, 18, 18, 0);
-            muscle(336, 118 + row * 46, 18, 18, 0);
-          }
-          muscle(244, 168, 18, 58, -0.15, "#2563eb", "#1e40af");
-          muscle(386, 168, 18, 58, 0.15, "#2563eb", "#1e40af");
-
-          pointer(276, 132, 178, 102, "Anteriores (2)", "Reto do abdome e Piramidal", "right");
-          pointer(228, 182, 178, 188, "Laterais (3)", "Oblíquos ext/int e Transverso", "right");
-          pointer(402, 178, 456, 166, "Posteriores (3)", "Quadrado lombar, Psoas, Ilíaco", "left");
-
-        } else if (sceneKey.indexOf("pel_") === 0) {
-          ctx.fillText(blindMode ? "ANATOMIA DO ASSOALHO PÉLVICO" : "ASSOALHO PÉLVICO: DIAFRAGMA PÉLVICO E PERÍNEO", 20, 30);
-          pill(20, 38, "Sustentação visceral e continência urinária/anal", "#6d28d9", "#ede9fe");
-
-          ctx.strokeStyle = "#cbd5e1";
-          ctx.lineWidth = 12;
-          ctx.beginPath();
-          ctx.ellipse(315, 182, 108, 76, 0, 0, Math.PI * 2);
-          ctx.stroke();
-
-          muscle(315, 176, 70, 36, 0, "#7c3aed", "#5b21b6");
-          ctx.fillStyle = "#e11d48";
-          ctx.beginPath(); ctx.arc(315, 155, 12, 0, Math.PI * 2); ctx.fill();
-          ctx.beginPath(); ctx.arc(315, 205, 17, 0, Math.PI * 2); ctx.fill();
-
-          pointer(250, 175, 172, 118, "Diafragma Pélvico", "Levantador do ânus + Coccígeo", "right");
-          pointer(302, 155, 172, 205, "Períneo (Sup. e Prof.)", "Esfíncter uretra, Bulboesp...", "right");
-          pointer(332, 205, 442, 196, "Continência Anal", "Esfíncteres ext. e int. do ânus", "left");
-
-        } else {
-          ctx.fillText(blindMode ? "ANATOMIA DO MEMBRO INFERIOR" : "MEMBROS INFERIORES: QUADRIL (10), COXA (9) E PERNA (4)", 20, 30);
-          pill(20, 38, "Locomoção, sustentação de peso e postura", "#047857", "#d1fae5");
-
-          bone(300, 104, 300, 196, 16);
-          bone(300, 198, 300, 288, 12);
-
-          muscle(270, 108, 28, 19, -0.3, "#7c3aed", "#5b21b6");
-          muscle(286, 154, 17, 36, 0);
-          muscle(315, 154, 14, 34, 0, "#be123c", "#881337");
-          muscle(310, 242, 12, 32, 0, "#2563eb", "#1e40af");
-
-          pointer(245, 106, 172, 92, "Quadril e Glútea (10)", "Glúteos, Piriforme, Gêmeos, Obt.", "right");
-          pointer(268, 154, 172, 166, "Quadríceps & Sartório (5)", "Reto femoral, Vastos e Sartório", "right");
-          pointer(330, 154, 395, 142, "Coxa Posterior (4)", "Bíceps fem., Semitend., Semimemb.", "left");
-          pointer(324, 242, 395, 230, "Perna (4)", "Poplíteo, Tibial post., Flexores", "left");
-        }
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 12px system-ui, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(blindMode ? "ESTRUTURA EM ANÁLISE" : "TECIDO / REGIÃO MUSCULAR", 320, 179);
+        ctx.textAlign = "left";
 
         return c.toDataURL("image/png");
       } catch (err) {
@@ -1851,24 +1734,34 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    function getOfflineImageDataURL(sceneKey, blindMode) {
-      const id = sceneKey + (blindMode ? "_blind" : "");
-      if (OFFLINE_IMAGE_BANK[id]) return OFFLINE_IMAGE_BANK[id];
-      const built = renderRasterPlate(sceneKey, Boolean(blindMode));
-      OFFLINE_IMAGE_BANK[id] = built;
-      return built;
+    function resolveImageSource(sceneKey, blindMode) {
+      const cached = cachedMediaMap[sceneKey];
+      if (cached && cached.src && cached.src.indexOf("data:image/") === 0) {
+        return {
+          src: cached.src,
+          badge: "Wikimedia Commons (Offline)",
+          title: cached.label || sceneKey
+        };
+      }
+      const fallback = OFFLINE_IMAGE_BANK[sceneKey + (blindMode ? "_blind" : "")] || renderRasterPlate(sceneKey, Boolean(blindMode));
+      return {
+        src: fallback,
+        localCandidate: "./img/" + sceneKey + ".png",
+        badge: blindMode ? "Modo identificação" : "Fallback offline",
+        title: sceneKey
+      };
     }
 
     function renderAtlasImage(sceneKey, altText, blindMode) {
-      const src = getOfflineImageDataURL(sceneKey, blindMode);
-      if (!src) {
-        return '<div class="atlas-frame"><div class="atlas-bar"><span>Prancha anatômica: ' + esc(altText) + '</span><span>Offline</span></div></div>';
-      }
+      const info = resolveImageSource(sceneKey, blindMode);
+      const localAttr = info.localCandidate ? ' data-local-img="' + esc(info.localCandidate) + '"' : "";
+      const fallbackAttr = info.src ? ' data-fallback-src="' + esc(info.src) + '"' : "";
+
       return '<div class="atlas-frame">' +
-        '<img class="atlas-img" src="' + src + '" alt="' + esc(altText) + '">' +
+        '<img class="atlas-img" src="' + info.src + '" alt="' + esc(altText) + '"' + localAttr + fallbackAttr + ' onerror="if(this.dataset.localImg && this.src!==this.dataset.localImg){this.dataset.triedLocal=\'1\';this.src=this.dataset.localImg;}else if(this.dataset.fallbackSrc && this.src!==this.dataset.fallbackSrc){this.src=this.dataset.fallbackSrc;}">' +
         '<div class="atlas-bar">' +
-          '<span>🖼️ Prancha anatômica pré-carregada (Data URL offline)</span>' +
-          '<span>' + (blindMode ? 'Modo identificação' : 'Sem internet') + '</span>' +
+          '<span>🖼️ ' + esc(info.title) + '</span>' +
+          '<span>' + esc(info.badge) + '</span>' +
         '</div>' +
       '</div>';
     }
@@ -2152,7 +2045,20 @@ document.addEventListener("DOMContentLoaded", function () {
     /* ==================== HOME ==================== */
     function renderHome() {
       showView("home");
-      $("v-home").innerHTML = '<p class="hint" style="margin:0 2px 12px">Selecione um tópico para estudar anatomia, fisiologia, origens, inserções e ações musculares, ou acesse <b>Buscar</b> e <b>Treinar</b>.</p>' +
+      $("v-home").innerHTML =
+        '<div class="sync-box" id="sync-card">' +
+          '<div class="sync-head">' +
+            '<b>🌐 Imagens via API Pública (Wikimedia Commons)</b>' +
+            '<span class="tag" id="sync-badge">' + syncState.saved + '/' + SCENE_KEYS.length + ' salvas offline</span>' +
+          '</div>' +
+          '<p class="hint" style="margin:6px 0 4px">Baixa ilustrações/diagramas anatômicos do Wikimedia Commons e salva como base64 no navegador para usar sem internet.</p>' +
+          '<div class="two">' +
+            '<button type="button" class="btn" id="btn-sync-wiki" ' + (syncState.running ? "disabled" : "") + '>' + (syncState.running ? "⏳ Sincronizando..." : "⬇️ Sincronizar imagens") + '</button>' +
+            '<button type="button" class="btn soft" id="btn-clear-wiki" ' + (syncState.running ? "disabled" : "") + '>🗑️ Limpar cache</button>' +
+          '</div>' +
+          '<div class="sync-status" id="sync-msg">' + esc(syncState.msg || (syncState.saved > 0 ? "Cache local ativo com " + syncState.saved + " pranchas." : "Nenhuma imagem externa salva ainda; usando fallback local.")) + '</div>' +
+        '</div>' +
+        '<p class="hint" style="margin:0 2px 12px">Selecione um tópico para estudar anatomia, fisiologia, origens, inserções e ações musculares, ou acesse <b>Buscar</b> e <b>Treinar</b>.</p>' +
         '<div class="topics">' +
           TOPICS.map(t => (
             '<button type="button" class="topic" data-t="' + t.id + '">' +
@@ -2167,6 +2073,25 @@ document.addEventListener("DOMContentLoaded", function () {
             '<span class="go">›</span>' +
           '</button>' +
         '</div>';
+
+      $("btn-sync-wiki").onclick = () => {
+        syncAllWikimediaImages(() => {
+          if ($("sync-badge")) $("sync-badge").textContent = syncState.saved + "/" + SCENE_KEYS.length + " salvas offline";
+          if ($("sync-msg")) $("sync-msg").textContent = syncState.msg;
+          if ($("btn-sync-wiki")) {
+            $("btn-sync-wiki").disabled = syncState.running;
+            $("btn-sync-wiki").textContent = syncState.running ? "⏳ Sincronizando..." : "⬇️ Sincronizar imagens";
+          }
+          if ($("btn-clear-wiki")) $("btn-clear-wiki").disabled = syncState.running;
+        });
+      };
+
+      $("btn-clear-wiki").onclick = () => {
+        askConfirm("Limpar cache de imagens?", "As imagens baixadas do Wikimedia Commons serão removidas do armazenamento offline.", () => {
+          clearMediaCache();
+          renderHome();
+        });
+      };
 
       $("v-home").querySelectorAll("[data-t]").forEach(btn => {
         btn.onclick = () => openTopic(btn.dataset.t);
@@ -3106,7 +3031,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       $("qsub").innerHTML = '<div class="card">' +
         '<span class="card-title">🖼️ Identificação com Imagem</span>' +
-        '<p class="hint">Observe a prancha anatômica sem rótulos, use a dica se precisar e digite a resposta (aceita com ou sem acento e tolera pequenos erros de digitação).</p>' +
+        '<p class="hint">Observe a prancha anatômica, use a dica se precisar e digite a resposta (aceita com ou sem acento e tolera pequenos erros de digitação).</p>' +
         '<h2 class="sec">Tópico</h2>' +
         '<div class="chips">' +
           '<button type="button" data-g="all" class="' + (iqGroup === "all" ? "on" : "") + '">Todos (' + cnt("all") + ')</button>' +
@@ -3240,7 +3165,8 @@ document.addEventListener("DOMContentLoaded", function () {
       $("ihm").onclick = renderQuizHome;
     }
 
-    /* ==================== INICIALIZAÇÃO 100% OFFLINE ==================== */
+    /* ==================== INICIALIZAÇÃO ==================== */
+    loadMediaCache();
     preloadOfflineImages();
     $("chip").textContent = MUSCLES.length + " músculos";
     renderHome();
